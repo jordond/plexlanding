@@ -1,0 +1,126 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "mime/mime.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "chalk/chalk.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "express/express.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "moment/moment.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "node/node.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "assertion-error/assertion-error.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "chai/chai.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "mocha/mocha.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "angularjs/angular.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "angular-ui-router/angular-ui-router.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "orchestrator/orchestrator.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "morgan/morgan.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "serve-favicon/serve-favicon.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "q/Q.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "sinon/sinon.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "angularjs/angular-animate.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "angularjs/angular-sanitize.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "angularjs/angular-mocks.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "source-map-support/source-map-support.d.ts": {
+      "commit": "0ea013a775ce1fb90c5e41b255e1d038714ffbe5"
+    },
+    "angular-material/angular-material.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "oclazyload/oclazyload.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "c3ab375b371b7b4204adee3b1209baecd81cec02"
+    },
+    "yargs/yargs.d.ts": {
+      "commit": "fb2b3b1e068c9ff7d8f9b0851c08d37d96c95c38"
+    },
+    "winston/winston.d.ts": {
+      "commit": "715df764419937a75a25dcd76bfc954157bc7b96"
+    },
+    "mkdirp/mkdirp.d.ts": {
+      "commit": "78d36dd49b6b55b9fdfe61776a12bf05c8b07777"
+    },
+    "compression/compression.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "errorhandler/errorhandler.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "cookie-parser/cookie-parser.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "helmet/helmet.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "method-override/method-override.d.ts": {
+      "commit": "e5a27ea95e47b95333784f1f0d590127b4e39a89"
+    },
+    "validator/validator.d.ts": {
+      "commit": "c3ab375b371b7b4204adee3b1209baecd81cec02"
+    },
+    "sequelize/sequelize.d.ts": {
+      "commit": "c3ab375b371b7b4204adee3b1209baecd81cec02"
+    },
+    "bluebird/bluebird.d.ts": {
+      "commit": "c3ab375b371b7b4204adee3b1209baecd81cec02"
+    }
+  }
+}

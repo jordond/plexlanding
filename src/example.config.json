@@ -1,0 +1,39 @@
+/**
+ * Example configuration file
+ * see `src/server/config/index.ts` for more information
+ */
+{
+
+  /**
+   * Environment to run server in
+   * default: development
+   * options: production || development
+   */
+  //"env": "development",
+
+  /**
+   * Port for express to listen on
+   * default: 80 || 9000
+   */
+  //"port": 80,
+
+  /**
+   * Control the logging capabilities
+   * type: 'both', 'console', 'file'
+   * level: Log level to show
+   * short: Output short form
+   */
+  // "log": {
+  //   "type": "both",
+  //   "level": "INFO",
+  //   "short": false
+  // },
+
+  /**
+   * Secret config settings that should not be published to source control
+   */
+  // "secrets": {
+  //   "session": "PLEASEREPLACEME"
+  // }
+
+}

@@ -1,0 +1,21 @@
+node_modules
+bower_components
+build
+.tmp
+#src/**/*.map
+#src/**/*.js
+
+**/test/coverage
+report
+
+*.log
+
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+typings
+
+# Configuration file
+src/config.json
