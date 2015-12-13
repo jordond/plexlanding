@@ -37,14 +37,17 @@ onExit((exitCode: number) => {
  */
 let userConfigPath: string = (args.c || args.config) || path.join(__dirname, '../config.json');
 fs.readFile(path.resolve(userConfigPath), (err: any, data: any) => {
+  let json = data || '{}';
   if (err) {
     Logger.create('Init')
       .warning('Config file [' + userConfigPath + '] not found, using defaults.')
       .info('Create config in [' + path.resolve(path.join(__dirname, '..')) + ']')
       .info('Or add flag "--config=/path/to/config"');
-    data = {};
+  } else {
+    Logger.create('Init')
+      .info('Using config file [' + path.resolve(userConfigPath) + ']');
   }
-  initConfig(JSON.parse(data))
+  initConfig(JSON.parse(json))
     .then((config: Config.IConfig) => Logger.init(config))
     .then(bootstrapServer)
     .catch(failed);

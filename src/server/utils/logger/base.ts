@@ -115,6 +115,9 @@ export default class Base {
    * @return {boolean}  Whether or not level is valid
    */
   static validLevel(desired: string): boolean {
+    if (!desired) {
+      return false;
+    }
     return LOG_LEVELS.indexOf(desired.toUpperCase()) !== -1;
   }
 
