@@ -13,7 +13,7 @@ function getStates(): IRoute[] {
       config: {
         name: 'home',
         url: '/',
-        template: '<home name="test"></home>',
+        template: '<home></home>',
         data: {
           misc: 'Hello world'
         }

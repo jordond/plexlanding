@@ -21,7 +21,7 @@ class Home implements ng.IDirective {
   }
 
   bindToController: boolean = true;
-  controller: any = HomeController; // to change to type HomeController? use constructor?
+  controller: any = HomeController;
   controllerAs: string = 'vm';
   restrict: string = 'EA';
   templateUrl: string = template;

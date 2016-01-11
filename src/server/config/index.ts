@@ -15,6 +15,7 @@ import * as fs from 'fs';
 
 import * as _ from 'lodash';
 import * as mkdirp from 'mkdirp';
+import { argv as args } from 'yargs';
 
 import prod from './environments/production';
 import dev from './environments/development';
@@ -107,7 +108,9 @@ export default function init(config: any, environment?: string): any {
     let environmentConfig = env === 'production' ? prod : dev;
     _config = _.merge(_config, environmentConfig || {}, config || {}, defaults);
 
-    if (!_config.paths.dataDir || _config.paths.dataDir === '') {
+    if (args.dataDir) {
+      _config.paths.dataDir = args.dataDir;
+    } else if (!_config.paths.dataDir || _config.paths.dataDir === '') {
       _config.paths.dataDir = path.join(_config.paths.root, './data');
     }
 

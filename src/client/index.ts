@@ -8,6 +8,9 @@ import core from './app/core/core.module';
 import home from './app/home/home.module';
 import admin from './app/admin/admin.module';
 
+// App style
+import './index.scss';
+
 let app =
   angular.module('app', [
     core,
