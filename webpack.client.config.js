@@ -50,7 +50,7 @@ module.exports = {
     }),
     new CommonsChunkPlugin({
       name: 'vendor',
-      filename: 'js/vendor-[hash:6].js',
+      filename: 'js/vendor-[hash:6].bundle.js',
       minChunks: Infinity
     })
   ],
