@@ -1,7 +1,9 @@
 # Plex Landing
 
 **Under active development, not ready for use**
+
 **NOT INTENDED FOR PUBLIC USE**
+
 **This will be removed when a beta version is ready**
 
 A landing page for a plex instance.  Allows users to see status of plex server, create an account and request access to your plex server.
