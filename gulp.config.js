@@ -16,7 +16,8 @@ var nodeServer = {
 var browserSync = {
   host: 'localhost',
   port: 3000,
-  proxy: 'http://localhost:' + (argsv.port || nodeServer.port || 9000) // TODO read node server from env.js file
+  proxy: 'http://localhost:' + (argsv.port || nodeServer.port || 9000),
+  open: false
 };
 
 
