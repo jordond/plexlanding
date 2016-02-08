@@ -20,6 +20,7 @@ import { argv as args } from 'yargs';
 import prod from './environments/production';
 import dev from './environments/development';
 import defaults from './protected';
+import plex from './plex';
 
 let _config: Config.IConfig = {
 
@@ -106,7 +107,7 @@ export default function init(config: any, environment?: string): any {
   let _promise = function(resolve: Function, reject: Function) {
     let env = environment || config.env || _config.env;
     let environmentConfig = env === 'production' ? prod : dev;
-    _config = _.merge(_config, environmentConfig || {}, config || {}, defaults);
+    _config = _.merge(_config, environmentConfig || {}, plex || {}, config || {}, defaults);
 
     if (args.dataDir) {
       _config.paths.dataDir = args.dataDir;

@@ -5,7 +5,9 @@ require('babel-polyfill');
 
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { argv as args } from 'yargs';
+let strip = require('strip-comments');
 
 import App from './core/app';
 import { default as initConfig } from './config/index';
@@ -47,10 +49,15 @@ fs.readFile(path.resolve(userConfigPath), (err: any, data: any) => {
     Logger.create('Init')
       .info('Using config file [' + path.resolve(userConfigPath) + ']');
   }
-  initConfig(JSON.parse(json))
-    .then((config: Config.IConfig) => Logger.init(config))
-    .then(bootstrapServer)
-    .catch(failed);
+  try {
+    json = JSON.parse(strip(json.toString()));
+    initConfig(json)
+      .then((config: Config.IConfig) => Logger.init(config))
+      .then(bootstrapServer)
+      .catch(failed);
+  } catch (err) {
+    failed(err);
+  }
 });
 
 /**

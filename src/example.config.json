@@ -36,4 +36,14 @@
   //   "session": "PLEASEREPLACEME"
   // }
 
+  /**
+   * Plex related config
+   * See: src/server/config/plex.ts
+   */
+  //  "plex": {
+  //    "hostname": "localhost",
+  //    "port": 32400,
+  //    "token": "YOUR PLEX TOKEN"
+  //  }
+
 }
