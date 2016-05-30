@@ -39,7 +39,7 @@ A landing page for a plex instance.  Allows users to see status of plex server, 
 ## Development
 
 - Clone the repo `git clone https://github.com/jordond/plexlanding`
-- Check out new repo `git checkout rewrite`
+- Check out new repo `git checkout develop`
 - Enable precommit hook `npm run hook-install` **optional**
 - Build and run the server `npm run dev`
 
