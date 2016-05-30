@@ -1,99 +1,190 @@
 {
-  "name": "plexlanding",
-  "description": "Landing page for a plex instance",
+  "name": "plex-landing",
   "version": "0.0.1",
-  "author": {
-    "name": "Jordon de Hoog",
-    "email": "jordon@hoogit.ca",
-    "url": "http://github.com/jordond"
-  },
+  "description": "Landing page for plex",
+  "main": "./dist/server/index",
   "repository": {
-    "url": "https://github.com/jordond/plexlanding"
+    "type": "git",
+    "url": "git+ssh://git@github.com/jordond/plex-landing.git"
   },
+  "author": "Jordon de Hoog",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jordond/plex-landing/issues"
+  },
+  "homepage": "https://github.com/jordond/plex-landing#readme",
   "scripts": {
-    "install": "tsd install",
-    "vet": "gulp vet",
-    "dev": "gulp dev",
-    "debug": "gulp dev --debug",
-    "deploy": "gulp deploy",
-    "start": "gulp build && node build/server"
+    "test": "better-npm-run test",
+    "test-watch": "npm test -- --auto-watch --no-single-run",
+    "lint": "eslint -c .eslintrc src",
+    "start": "better-npm-run start:prod",
+    "start-dev": "better-npm-run start:dev",
+    "build": "npm run lint && npm run build-server && better-npm-run build:prod",
+    "build-watch": "npm run lint && better-npm-run build:prod:watch",
+    "build-dev": "better-npm-run build:dev",
+    "build-server": "webpack --config webpack.server.js",
+    "dev": "concurrently --kill-others \"npm run build-dev\" \"npm run dev-server\"",
+    "dev-test": "concurrently --kill-others \"npm run dev\" \"npm run test-watch\"",
+    "dev-prod": "concurrently --kill-others \"npm run build-watch\" \"npm run start\"",
+    "hook-install": "precommit install",
+    "hook-remove": "precommit remove",
+    "upgrade": "git pull && npm install",
+    "dev-server": "better-npm-run nodemon:dev"
+  },
+  "precommit": [
+    "npm run lint"
+  ],
+  "betterScripts": {
+    "test": {
+      "command": "karma start",
+      "env": {
+        "NODE_ENV": "test"
+      }
+    },
+    "start:prod": {
+      "command": "node ./dist/server",
+      "env": {
+        "NODE_ENV": "production",
+        "NODE_PATH": "./src",
+        "PORT": 8080
+      }
+    },
+    "start:dev": {
+      "command": "node ./dist/server",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src",
+        "PORT": 9000
+      }
+    },
+    "build:prod": {
+      "command": "webpack --verbose --colors --display-error-details --config webpack.client.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "build:prod:watch": {
+      "command": "webpack --watch --debug --verbose --colors --display-error-details --config webpack.client.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "build:dev": {
+      "command": "webpack --watch --debug --colors --display-error-details --config webpack.client.js",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 9000
+      }
+    },
+    "nodemon:dev": {
+      "command": "nodemon --watch ./src/server --delay 250ms --exec 'npm run build-server; npm run start-dev' --debug",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src",
+        "PORT": 9000
+      }
+    },
+    "nodemon:prod": {
+      "command": "node ./dist/server",
+      "env": {
+        "NODE_ENV": "production",
+        "NODE_PATH": "./src",
+        "PORT": 8080
+      }
+    }
   },
   "dependencies": {
-    "angular": "^1.4.8",
-    "angular-animate": "^1.4.8",
-    "angular-aria": "^1.4.8",
-    "angular-material": "^1.0.0",
-    "angular-ui-router": "^0.2.15",
-    "bluebird": "^3.0.6",
-    "body-parser": "^1.14.1",
-    "chalk": "^1.1.1",
-    "compression": "^1.6.0",
-    "cookie-parser": "^1.4.0",
-    "errorhandler": "^1.4.2",
-    "express": "^4.13.3",
-    "font-awesome": "^4.4.0",
-    "helmet": "^0.15.0",
-    "lodash": "^3.10.1",
-    "merge": "^1.2.0",
+    "babel": "^6.5.2",
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-eslint": "^6.0.4",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-register": "^6.9.0",
+    "babel-runtime": "^6.9.0",
+    "bluebird": "^3.4.0",
+    "body-parser": "^1.15.1",
+    "chalk": "^1.1.3",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.1",
+    "errorhandler": "^1.4.3",
+    "express": "^4.13.4",
+    "helmet": "^2.0.0",
+    "jsonfile": "^2.3.1",
+    "lodash": "^4.12.0",
+    "mailcomposer": "^3.9.0",
+    "mailgun-js": "^0.7.11",
     "method-override": "^2.3.5",
-    "mkdirp": "^0.5.1",
-    "moment": "^2.10.6",
-    "morgan": "^1.6.1",
-    "oclazyload": "^1.0.8",
-    "plex-api": "^3.3.0",
-    "sequelize": "^3.14.2",
+    "mkdirp-promise": "^2.0.0",
+    "moment": "^2.13.0",
+    "morgan": "^1.7.0",
+    "pretty-error": "^2.0.0",
+    "sequelize": "^3.23.2",
     "serve-favicon": "^2.3.0",
-    "socket.io": "^1.3.7",
-    "socket.io-client": "^1.3.7",
-    "sqlite3": "^3.1.1",
-    "strip-comments": "^0.4.3",
-    "winston": "^2.1.1",
-    "yargs": "^3.30.0"
+    "socket.io": "^1.4.6",
+    "sqlite3": "^3.1.4",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
-    "autoprefixer-loader": "^3.1.0",
-    "babel-loader": "^6.2.0",
-    "babel-polyfill": "^6.2.0",
-    "babel-preset-es2015": "^6.1.18",
-    "babel-runtime": "^6.3.19",
-    "browser-sync": "^2.10.1",
+    "angular": "^1.5.5",
+    "angular-animate": "^1.5.5",
+    "angular-aria": "^1.5.5",
+    "angular-material": "^1.0.8",
+    "angular-material-icons": "^0.7.0",
+    "angular-messages": "^1.5.5",
+    "angular-mocks": "^1.5.5",
+    "angular-moment": "^1.0.0-beta.6",
+    "angular-route": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-socket-io": "^0.7.0",
+    "angular-ui-router": "^0.3.0",
+    "autoprefixer-loader": "^3.2.0",
+    "better-npm-run": "0.0.8",
+    "browser-sync": "^2.12.8",
     "browser-sync-webpack-plugin": "^1.0.1",
-    "css-loader": "^0.23.0",
-    "del": "^2.1.0",
-    "file-loader": "^0.8.4",
-    "gulp": "^3.9.0",
-    "gulp-bump": "^1.0.0",
-    "gulp-cached": "^1.1.0",
-    "gulp-filter": "^3.0.1",
-    "gulp-header": "^1.7.1",
-    "gulp-help": "^1.6.1",
-    "gulp-load-plugins": "^1.1.0",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-order": "^1.1.1",
-    "gulp-plumber": "^1.0.1",
-    "gulp-print": "^2.0.1",
-    "gulp-rsync": "0.0.5",
-    "gulp-size": "^2.0.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^4.2.1",
-    "gulp-util": "^3.0.7",
-    "gulp-webpack": "^1.5.0",
-    "html-loader": "^0.4.0",
-    "html-webpack-plugin": "^1.7.0",
+    "chai": "^3.5.0",
+    "clean-webpack-plugin": "^0.1.9",
+    "concurrently": "^2.1.0",
+    "core-js": "^2.4.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.10.2",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-react": "^5.1.1",
+    "file-loader": "^0.8.5",
+    "font-awesome": "^4.6.1",
+    "hat": "0.0.3",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.17.0",
     "json-loader": "^0.5.4",
-    "ng-annotate": "^1.0.2",
-    "ng-annotate-loader": "0.0.10",
+    "karma": "^0.13.22",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^1.0.1",
+    "karma-mocha-reporter": "^2.0.3",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.4.5",
+    "ng-annotate": "^1.2.1",
+    "ng-annotate-loader": "^0.1.0",
     "ngtemplate-loader": "^1.3.1",
-    "node-sass": "^3.4.2",
-    "sass-loader": "^3.1.2",
+    "node-sass": "^3.7.0",
+    "nodemon": "^1.9.2",
+    "normalize.css": "^4.1.1",
+    "null-loader": "^0.1.1",
+    "phantomjs-prebuilt": "^2.1.7",
+    "precommit": "^1.2.0",
+    "sass-loader": "^3.2.0",
+    "sass-material-colors": "0.0.5",
+    "skeleton-css": "^2.0.4",
     "source-map-support": "^0.4.0",
-    "style-loader": "^0.13.0",
-    "ts-loader": "^0.7.2",
-    "tslint": "^3.1.1",
-    "tslint-loader": "^2.1.0",
-    "typescript": "^1.7.5",
-    "webpack": "^1.12.8",
-    "wrench": "^1.5.8"
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0",
+    "webpack-node-externals": "^1.2.0",
+    "x-ray": "^2.3.0"
   }
 }

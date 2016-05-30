@@ -1,0 +1,9 @@
+cache:
+  mount:
+    - node_modules
+build:
+  image: node:wheezy
+  commands:
+    - npm install --unsafe-perm
+    - npm run lint
+    # - npm test

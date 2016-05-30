@@ -1,15 +1,16 @@
 # Plex Landing
 
-**Under active development, not ready for use**
+Update: May 28
+- Re-writes are fun, taking a simpler approach.
+- The install and build process is going to be completely different.
 
-**NOT INTENDED FOR PUBLIC USE**
+**Under active development, not ready for use**
 
 **This will be removed when a beta version is ready**
 
 A landing page for a plex instance.  Allows users to see status of plex server, create an account and request access to your plex server.
 
 ## Features
-- Whole lot of nothin ;) 
 - TODO
 
 ## To-do
@@ -24,38 +25,30 @@ A landing page for a plex instance.  Allows users to see status of plex server, 
     - Pending users
     - All users
   - Scrape plex.tv to ease the creation of a plex account
-  - See if possible to scrape plex instance and add user to invite list
+  - See if possible to scrape plex instance and add user to invite list **spoiler: it is**
 - Dockerize the application
 
 ## Installing
 
-1. Clone the repo `git clone git@github.com:jordond/plexlanding.git`
-2. Install dependencies `npm install`
-3. Compile by running `gulp build`
+- **TODO**
 
 ## Running
 
-A config file (see example.config.json) needs to be placed in the project root.  Or for better safety pass the path of the config file in as an argument.
+- **TODO**
 
-`--config=path/to/config | -c path/to/config`
+## Development
 
-1. Export production environment `export ENV=production`
-2. Run the server `node build/server/app.js`
-  - Optionally run `ENV=production node build/server/app.js`
-
-### Issues
-
-#### Bluebird warnings
-I don't actually use bluebird in this app (save for a promisify maybe), as I wanted to try a ES6 experience.  However Sequelize depends on bluebirds for its promises.  With their latest update Bluebird introduced warnings if handling of promises wasn't done correctly.  Sequelize suffers from some of these warnings, and methods such as `.findAll() .findById() .count()` will display a huge block of warning code.  There is nothing I can do about that for the moment, so if you see them just ignore it. (My logger will not log bluebirds warnings)
-
-----
+- Clone the repo `git clone https://github.com/jordond/plexlanding`
+- Check out new repo `git checkout rewrite`
+- Enable precommit hook `npm run hook-install` **optional**
+- Build and run the server `npm run dev`
 
 ## License
 
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015 Jordon de Hoog
+Copyright (c) 2016 Jordon de Hoog
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

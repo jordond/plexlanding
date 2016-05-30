@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "target": "ES6"
-  }
-}

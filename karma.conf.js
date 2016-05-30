@@ -1,59 +1,47 @@
-module.exports = function(config) {
-    var gulpConfig = require('./gulp.config')();
+/* eslint-disable */
+var webpackConfig = require('./config.webpack');
 
-    config.set({
-        // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: './',
+module.exports = function (config) {
+  config.set({
+    basePath: '',
 
-        // frameworks to use
-        // some available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['mocha', 'chai', 'sinon', 'chai-sinon'],
+    frameworks: ['mocha', 'chai'],
 
-        // list of files / patterns to load in the browser
-        files: gulpConfig.karma.files,
+    // list of files/patterns to load in the browser
+    files: [{ pattern: 'test/test.bundle.js', watched: false }],
 
-        // list of files to exclude
-        exclude: gulpConfig.karma.exclude,
+    // files to exclude
+    exclude: [],
 
-        proxies: {
-            '/': 'http://localhost:8888/'
-        },
+    plugins: [
+      require("karma-chai"),
+      require("karma-phantomjs-launcher"),
+      require("karma-mocha"),
+      require("karma-mocha-reporter"),
+      require("karma-sourcemap-loader"),
+      require("karma-webpack")
+    ],
 
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: gulpConfig.karma.preprocessors,
+    preprocessors: { 'test/test.bundle.js': ['webpack', 'sourcemap'] },
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress', 'coverage'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress', 'coverage'],
+    webpack: webpackConfig,
 
-        coverageReporter: {
-            dir: gulpConfig.karma.coverage.dir,
-            reporters: gulpConfig.karma.coverage.reporters
-        },
+    webpackServer: {
+      noInfo: true
+    },
 
-        // web server port
-        port: 9876,
+    reporters: ['mocha'],
 
-        // enable / disable colors in the output (reporters and logs)
-        colors: true,
+    port: 9876,
 
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR ||
-        // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+    colors: true,
 
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: true,
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO,
 
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        //        browsers: ['Chrome', 'ChromeCanary', 'FirefoxAurora', 'Safari', 'PhantomJS'],
-        browsers: ['PhantomJS'],
+    // start these browsers
+    browsers: ['PhantomJS'],
 
-        // Continuous Integration mode
-        // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
-    });
+    singleRun: true
+  });
 };
