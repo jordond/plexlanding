@@ -1,0 +1,14 @@
+.admin {
+  md-card {
+    h2 {
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+  }
+  .md-fab {
+    ng-md-icon {
+      position: relative;
+      top: 7px;
+    }
+  }
+}
