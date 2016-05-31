@@ -1,16 +1,18 @@
 import { install } from 'source-map-support';
 install();
 
+import { resolve } from 'path';
+
 import mkdirp from 'mkdirp-promise';
 import PrettyError from 'pretty-error';
 
-import bootstrap from './server';
+import server from './server';
 import config from './config';
 import logger from './logger';
 
 const pretty = new PrettyError();
-const defaultConfig = config.defaults();
-const log = logger.create('System', defaultConfig.log);
+
+let log = null;
 
 /**
  * Called when the node process is about to exit
@@ -60,12 +62,27 @@ function onError(err) {
  * Attempt to launch the server
  * catch and throw any errors
  */
-const dataDir = config.defaults().paths.data;
-mkdirp(dataDir)
-  .then(() => {
-    const packageInfo = require('../../package.json');
+async function start() {
+  const packageInfo = require('../../package.json');
+  try {
+    // Load the application config
+    const conf = await config.all();
+    const dataDir = conf.paths.data;
+
+    // Create the data directory if it doesn't already exist
+    await mkdirp(dataDir);
+
+    // Initialize the logger and create logger instance
+    await logger.init(conf);
+    log = logger.create('System');
     log.info(`Application name: [${packageInfo.name}]`)
       .info(`Version Number  : [${packageInfo.version}]`)
-      .info(`Using [${dataDir}] as data folder`);
-    return bootstrap();
-  }).catch(onError);
+      .info(`Using [${resolve(dataDir)}] as data folder`);
+
+    await server.start(conf);
+  } catch (err) {
+    onError(err);
+  }
+}
+
+start();

@@ -28,15 +28,13 @@ export function emit(event, data, callback = NOOP) {
   io.sockets.emit(event, data);
 }
 
-export function init(server) {
+export function register(server) {
   log.info('Initializing Socket.IO');
 
   io.listen(server);
   io.on('connection', onConnect);
 
   // Add other socket files here
-
-  return Promise.resolve();
 }
 
-export default { init, io, emit };
+export default { register, io, emit };

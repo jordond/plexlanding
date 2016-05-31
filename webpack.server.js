@@ -7,7 +7,7 @@ const jsDir = path.resolve('./src/server');
 const entryOut = path.resolve('./dist/server');
 
 module.exports = {
-  entry: path.resolve(jsDir, 'index.js'),
+  entry: ['babel-regenerator-runtime', path.resolve(jsDir, 'index.js')],
   target: 'node',
   node: {
     __dirname: true
