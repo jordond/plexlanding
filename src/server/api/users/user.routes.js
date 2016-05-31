@@ -1,16 +1,45 @@
-import Controller from './user.controller';
+import user from './user.controller';
 
-export function register(router) {
-  const ctrl = new Controller();
-  router
-    .route('/users')
-    .get(ctrl.all)
-    .post(ctrl.create);
+export const urlBase = '/users';
 
-  router
-    .route('/users/:id')
-    .post(ctrl.approve)
-    .delete(ctrl.destroy);
-}
+export const routes = [
+  {
+    method: 'GET',
+    route: '/',
+    handlers: [
+      user.all
+    ]
+  },
+  {
+    method: 'POST',
+    route: '/',
+    handlers: [
+      user.create
+    ]
+  },
+  {
+    method: 'GET',
+    route: '/:id',
+    handlers: [
+      user.getUser
+    ]
+  },
+  {
+    method: 'PUT',
+    route: '/:id',
+    handlers: [
+      user.getUser,
+      user.update
+    ]
+  },
+  {
+    method: 'DELETE',
+    route: '/:id',
+    handlers: [
+      user.getUser,
+      user.destroy
+    ]
+  }
+];
 
-export default { register };
+export default { urlBase, routes };

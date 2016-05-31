@@ -1,30 +1,43 @@
-import express from 'express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 
+import Router from 'koa-router';
+
 import configRoutes from './api/config/config.routes';
-import userRoutes from './api/users/user.routes';
+import user from './api/users/user.routes';
+
+const router = new Router();
 
 function register(app, config) {
-  // Register the api routes
-  const apiRouter = express.Router();
+  const endpoints = [user];
 
-  configRoutes.register(apiRouter);
-  userRoutes.register(apiRouter);
+  for (const endpoint of endpoints) {
+    const { routes, urlBase } = endpoint;
+    const apiRouter = new Router({ prefix: `/api${urlBase}` });
 
-  apiRouter.route('/').all((req, res) => res.status(200).json('You\'ve reached the API'));
-  apiRouter.route('/*').all((req, res) => res.status(404).json('Invalid API Route'));
+    for (const x of routes) {
+      const { method, route, handlers } = x;
+      const lastHandler = handlers.pop();
 
-  app.use('/api', apiRouter);
+      apiRouter[method.toLowerCase()](route, ...handlers, async (ctx) => await lastHandler(ctx));
+    }
+    app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
+  }
 
-  // Register the static routes
-  app.route('/*')
-  .get((req, res) => {
-    res.setHeader('Content-Type', 'text/html');
-    createReadStream(join(config.paths.root, 'client', 'index.html')).pipe(res);
+  router.all('/api/', ctx => (ctx.body = { message: 'You\'ve reached the API' }));
+  router.all('/api/*', ctx => {
+    ctx.status = 404;
+    ctx.body = { message: 'Invalid API Route' };
   });
 
-  Promise.resolve();
+  // Register the static routes
+  const indexPath = join(config.paths.root, 'client', 'index.html');
+  router.get('/*', async (ctx) => {
+    ctx.type = 'text/html';
+    ctx.body = createReadStream(indexPath);
+  });
+
+  app.use(router.routes()).use(router.allowedMethods());
 }
 
 export default { register };

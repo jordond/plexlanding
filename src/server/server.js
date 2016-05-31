@@ -1,18 +1,18 @@
 import { join } from 'path';
-import http from 'http';
 
+import Koa from 'koa';
+import convert from 'koa-convert';
+import favicon from 'koa-favicon';
+import compress from 'koa-compress';
+import morgan from 'koa-morgan';
+import helmet from 'koa-helmet';
+import koaSession from 'koa-session';
+import bodyParser from 'koa-bodyparser';
+import serve from 'koa-static';
 import hat from 'hat';
-import Express from 'express';
 import PrettyError from 'pretty-error';
-import favicon from 'serve-favicon';
-import compression from 'compression';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import methodOverride from 'method-override';
-import cookieParser from 'cookie-parser';
-import errorHandler from 'errorhandler';
-import helmet from 'helmet';
 
+import errorHandler from './middleware/error';
 import configuration from './config';
 import logger from './logger';
 import database from './database';
@@ -20,8 +20,7 @@ import sockets from './sockets';
 import routes from './routes';
 
 const pretty = new PrettyError();
-const app = new Express();
-const server = new http.Server(app);
+const app = new Koa();
 
 export async function start(config) {
   if (!config) {
@@ -39,32 +38,31 @@ export async function start(config) {
   }
 
   // Set up the server
-  app.use(compression());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-  app.use(methodOverride());
-  app.use(cookieParser());
-  app.use(helmet());
-  app.use(Express.static(config.paths.root));
-  app.use(favicon(join(config.paths.root, 'favicon.ico')));
+  app.keys = [config.secrets.session];
+  app.use(convert(koaSession(app)));
 
-  // Setup middleware
+  // Logging middleware
   if (config.env === 'production') {
-    app.use(morgan('short', {
-      skip: (req, res) => res.statusCode < 400
-    }));
+    app.use(morgan('short', { skip: (req, res) => res.statusCode < 400 }));
   } else {
     app.use(morgan('dev'));
-    app.use(errorHandler());
   }
+  app.use(compress());
+  app.use(bodyParser());
+  app.use(convert(helmet()));
+  app.use(errorHandler());
+
+  // Serving files
+  app.use(convert(serve(config.paths.root)));
+  app.use(favicon(join(config.paths.root, 'favicon.ico')));
 
   // Register all server components
   log.info('Initializing server components').debug('Using config', config);
   await database.init(config);
-  routes.register(app, config);
-  sockets.register(server);
+  routes.register(app, config); // TODO renable once I get koa situated
+  sockets.register(app);
 
-  server.listen(config.port, (err) => {
+  app.listen(config.port, (err) => {
     if (err) {
       log.error(`Error listening on port :${config.port}`);
       throw err;
