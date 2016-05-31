@@ -22,18 +22,11 @@ export async function create(ctx) {
 }
 
 export async function getUser(ctx, next) {
-  try {
-    const user = await User().findById(ctx.params.id);
-    if (!user) {
-      ctx.throw(404);
-    }
-    ctx.body = { user };
-  } catch (err) {
-    if (err === 404) {
-      ctx.throw(404);
-    }
-    ctx.throw(500);
+  const user = await User().findById(ctx.params.id);
+  if (!user) {
+    ctx.throw(404);
   }
+  ctx.body = { user };
 
   if (next) {
     return next();
@@ -41,7 +34,6 @@ export async function getUser(ctx, next) {
 }
 
 export async function update(ctx) {
-  // TODO use middleware to auto grab the user
   const user = ctx.body.user;
 
   Object.assign(user, ctx.request.body.user);
