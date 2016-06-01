@@ -41,7 +41,6 @@ function register(app, config) {
       // Secure the api, unless flag set in user.config OR endpoint/route has disabled auth
       if (config.secureApi) {
         if (!endpoint.disableAuth && !x.disableAuth) {
-          console.log('inside', route);
           handlers.unshift(jwt({ secret: config.secrets.session }));
         }
       } else {
