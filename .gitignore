@@ -2,6 +2,7 @@ node_modules
 bower_components
 build
 .tmp
+tmp
 #src/**/*.map
 #src/**/*.js
 
@@ -15,7 +16,8 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
-typings
+typings/
 
-# Configuration file
-src/config.json
+dist/server/
+dist/client/
+dist/data/

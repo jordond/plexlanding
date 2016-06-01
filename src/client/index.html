@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" ng-cloak ng-strict-diiiiii>
+<html lang="en" ng-app="app" ng-strict-diiiiii>
   <head>
     <base href="/">
-    <title>Fullstack</title>
+    <title>Plex Landing</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
   </head>
 
-  <body class="">
+  <body ng-cloak>
 
-    <div class="">
-        <ui-view></ui-view>
-    </div>
-
+    <!--UI Router content-->
+    <md-content class="bg-200" layout-fill>
+      <ui-view layout="column" layout-fill></ui-view>
+    </md-content>
 
   </body>
 </html>
