@@ -13,6 +13,11 @@ export const development = {
 };
 
 export const production = {
+  defaultUser: {
+    username: 'Administrator',
+    password: '$PlexLanding$'
+  },
+
   database: {
     username: 'admin',
     password: null,

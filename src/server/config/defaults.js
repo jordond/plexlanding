@@ -15,6 +15,11 @@ export default {
     data: join(distDir, 'data')
   },
 
+  defaultUser: {
+    username: 'admin',
+    password: 'admin'
+  },
+
   database: {
     options: {
       dialect: 'sqlite',

@@ -1,5 +1,3 @@
-/* eslint object-shorthand: 0 func-names: 0 */
-
 import Sequelize from 'sequelize';
 
 import { safelyParseJSON, ensureHttpProtocol } from '../../utils';
@@ -26,9 +24,6 @@ export const User = {
     approved: {
       type: Sequelize.BOOLEAN,
       default: false
-    },
-    approvedDate: {
-      type: Sequelize.DATE
     }
   }
 };

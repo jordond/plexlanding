@@ -1,11 +1,12 @@
-import { User } from '../../database';
+import Database from '../../database';
 import { createHttpError } from '../../utils';
 import logger from '../../logger';
 
+const models = Database.models;
 const log = logger.create('User:Ctrl');
 
 export async function all(ctx) {
-  const users = await User().findAll();
+  const users = await models.User.findAll();
   ctx.body = { users };
 }
 
@@ -13,7 +14,7 @@ export async function create(ctx) {
   const user = ctx.request.body.user;
   // TODO talk to plex api
   try {
-    const created = await User().create(user);
+    const created = await models.User.create(user);
     log.verbose(`Creating new user [${user.username}]`);
     ctx.body = { user: created.get() };
   } catch (err) {
@@ -22,9 +23,9 @@ export async function create(ctx) {
 }
 
 export async function getUser(ctx, next) {
-  const user = await User().findById(ctx.params.id);
+  const user = await models.User.findById(ctx.params.id);
   if (!user) {
-    ctx.throw(404);
+    ctx.throw(404, `User ${ctx.params.id} could not be found`);
   }
   ctx.body = { user };
 
