@@ -77,7 +77,7 @@
       }
     },
     "nodemon:dev": {
-      "command": "nodemon --watch ./src/server --delay 250ms --exec 'npm run build-server; npm run start-dev' --debug",
+      "command": "nodemon ./src/server --watch ./src/server --debug --exec babel-node",
       "env": {
         "NODE_ENV": "development",
         "NODE_PATH": "./src",
