@@ -11,11 +11,11 @@ export async function all(ctx) {
 }
 
 export async function create(ctx) {
-  const user = ctx.request.body.user;
+  const user = ctx.request.body;
   // TODO talk to plex api
   try {
     const created = await models.User.create(user);
-    log.verbose(`Creating new user [${user.username}]`);
+    log.verbose(`Creating new user [${user.email}]`);
     ctx.body = { user: created.get() };
   } catch (err) {
     ctx.throw(422, err);
@@ -37,7 +37,7 @@ export async function getUser(ctx, next) {
 export async function update(ctx) {
   const user = ctx.body.user;
 
-  Object.assign(user, ctx.request.body.user);
+  Object.assign(user, ctx.request.body);
   await user.save();
 
   ctx.body = { user };

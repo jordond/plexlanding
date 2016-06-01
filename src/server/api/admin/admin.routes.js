@@ -4,8 +4,15 @@ export const urlBase = '/admin';
 
 export const routes = [
   {
+    method: 'GET',
+    route: '/user',
+    handlers: [
+      admin.getAdmin
+    ]
+  },
+  {
     method: 'PUT',
-    route: '/:id',
+    route: '/user',
     handlers: [
       admin.getAdmin,
       admin.update

@@ -9,7 +9,7 @@ export async function login(ctx) {
 }
 
 export async function getAdmin(ctx, next) {
-  const admin = await models.Admin.fineOne();
+  const admin = await models.Admin.findOne();
   if (!admin) {
     ctx.throw(404, 'Could not retrieve admin user');
   }

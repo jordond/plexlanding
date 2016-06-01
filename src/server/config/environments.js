@@ -1,4 +1,6 @@
 export const development = {
+  secureApi: false,
+
   database: {
     username: 'admin',
     password: null,
@@ -13,6 +15,8 @@ export const development = {
 };
 
 export const production = {
+  secureApi: true,
+
   defaultUser: {
     username: 'Administrator',
     password: '$PlexLanding$'

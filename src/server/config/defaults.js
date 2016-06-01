@@ -20,6 +20,8 @@ export default {
     password: 'admin'
   },
 
+  secureApi: false,
+
   database: {
     options: {
       dialect: 'sqlite',

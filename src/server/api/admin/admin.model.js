@@ -44,7 +44,10 @@ export const config = {
   freezeTableName: true,
   instanceMethods: {
     toJSON: function () {
-      return this.get('username');
+      const values = this.get();
+      delete values.password;
+      delete values.salt;
+      return values;
     }
   }
 };
