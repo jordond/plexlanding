@@ -5,7 +5,7 @@ export function errorMiddleware() {
     } catch (err) {
       ctx.type = 'application/json';
       ctx.status = err.status || 500;
-      ctx.body = { message: err.message, status: ctx.status };
+      ctx.body = { message: err.message, status: ctx.status, error: err };
       ctx.app.emit('error', err, ctx);
     }
   };

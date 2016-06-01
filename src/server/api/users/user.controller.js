@@ -12,12 +12,12 @@ export async function all(ctx) {
 export async function create(ctx) {
   const user = ctx.request.body.user;
   // TODO talk to plex api
-  log.info(`Creating new user [${user.username}]`);
   try {
     const created = await User().create(user);
+    log.verbose(`Creating new user [${user.username}]`);
     ctx.body = { user: created.get() };
   } catch (err) {
-    ctx.throw(422, err.message);
+    ctx.throw(422, err);
   }
 }
 
