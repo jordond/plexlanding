@@ -7,7 +7,7 @@ import Sequelize from 'sequelize';
 import logger from './logger';
 import { emit } from './sockets';
 import { User as modelUser } from './api/users/user.model';
-import Admin from './api/auth/auth.model';
+import Admin from './api/admin/admin.model';
 
 const log = logger.create('Database');
 
