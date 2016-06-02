@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-const distDir = process.env.DATA_DIR || join(__dirname, '../../..', 'dist');
+const distDir = join(__dirname, '../../..', 'dist');
 
 export default {
 
@@ -12,7 +12,7 @@ export default {
 
   paths: {
     root: distDir,
-    data: join(distDir, 'data')
+    data: join(process.env.DATA_DIR || distDir, 'data')
   },
 
   defaultUser: {

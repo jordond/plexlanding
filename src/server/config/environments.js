@@ -29,7 +29,7 @@ export const production = {
   },
 
   log: {
-    level: 'VERBOSE',
+    level: 'INFO',
     short: true
   }
 };
