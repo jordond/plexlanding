@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-const distDir = join(__dirname, '../../..', 'dist');
+const distDir = process.env.DATA_DIR || join(__dirname, '../../..', 'dist');
 
 export default {
 
