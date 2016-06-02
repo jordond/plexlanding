@@ -38,6 +38,19 @@ function onCtrlC() {
 process.on('SIGINT', onCtrlC);
 
 /**
+ * Called when SIGTERM is received or when 'docker stop' is issued
+ */
+function onSigterm() {
+  if (process.env.NODE_DOCKER) {
+    log.info('Exit: Docker container is stopping');
+  } else {
+    log.info('Exit: Receiving term signal');
+  }
+  process.exit(0);
+}
+process.on('SIGTERM', onSigterm);
+
+/**
  * Called when an uncaught exception is thrown.
  * The server is wrapped in a try catch, that will throw it's error
  * to be caught here
