@@ -12,7 +12,7 @@ import logger from './logger';
 
 const pretty = new PrettyError();
 
-let log = null;
+let log = logger.create('System', config.defaults().log);
 
 /**
  * Called when the node process is about to exit
