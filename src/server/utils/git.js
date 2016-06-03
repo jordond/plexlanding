@@ -4,22 +4,14 @@
 
 import git from 'git-rev';
 
-
-export function short() {
-  return new Promise(resolve => git.short(x => resolve(x)));
+function promisify(func) {
+  return new Promise(resolve => func(x => resolve(x)));
 }
 
-export function long() {
-  return new Promise(resolve => git.long(x => resolve(x)));
-}
-
-export function branch() {
-  return new Promise(resolve => git.branch(x => resolve(x)));
-}
-
-export function tag() {
-  return new Promise(resolve => git.tag(x => resolve(x)));
-}
+export const short = () => promisify(git.short);
+export const long = () => promisify(git.long);
+export const branch = () => promisify(git.branch);
+export const tag = () => promisify(git.tag);
 
 export const hash = { short, long };
 
