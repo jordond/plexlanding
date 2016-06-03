@@ -9,6 +9,7 @@ import PrettyError from 'pretty-error';
 import server from './server';
 import config from './config';
 import logger from './logger';
+import git from './utils/git';
 
 const pretty = new PrettyError();
 
@@ -88,9 +89,19 @@ async function start() {
     // Initialize the logger and create logger instance
     await logger.init(conf);
     log = logger.create('System');
+
+    const hash = await git.hash.long();
+    const branch = await git.branch();
     log.info(`Application name: [${packageInfo.name}]`)
+      .info(`Using branch    : [${branch}]`)
+      .info(`Git version     : [${hash}]`)
       .info(`Version Number  : [${packageInfo.version}]`)
-      .info(`Using [${resolve(dataDir)}] as data folder`);
+      .info(`Using [${resolve(dataDir)}] as data folder`)
+      .info(`Running in [${process.env.NODE_ENV.toUpperCase()}] mode`);
+
+    if (process.env.NODE_DOCKER) {
+      log.info('Running in DOCKER mode');
+    }
 
     await server.start(conf);
   } catch (err) {

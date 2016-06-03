@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-import { safelyParseJSON, ensureHttpProtocol } from '../../utils';
+import { safelyParseJSON, ensureHttpProtocol } from '../../utils/misc';
 
 export const User = {
   name: 'users',

@@ -1,4 +1,4 @@
-import { createHttpError } from '../../utils';
+import { createHttpError } from '../../utils/misc';
 import configLoader from '../../config';
 import email from '../../email';
 import { Doctor, Review } from '../../database';

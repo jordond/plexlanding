@@ -1,5 +1,4 @@
 import Database from '../../database';
-import { createHttpError } from '../../utils';
 import logger from '../../logger';
 
 const models = Database.models;
