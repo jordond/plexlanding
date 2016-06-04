@@ -1,10 +1,11 @@
 import { join } from 'path';
+import { type, release } from 'os';
 
 const distDir = join(__dirname, '../../..', 'dist');
 
 export default {
 
-  title: 'Plex Landing',
+  title: 'Plex Landing', // Add a custom name for your server
 
   env: process.env.NODE_ENV || 'development',
 
@@ -44,6 +45,20 @@ export default {
 
   secrets: {
     session: 'REPLACE'
+  },
+
+  plex: {
+    url: 'https://app.plex.tv/web/app',
+    hostname: 'localhost',
+    port: 32400,
+    token: '',
+    headers: {
+      'X-Plex-Platform': type(),
+      'X-Plex-Platform-Version': release(),
+      'X-Plex-Client-Identifier': '',
+      'X-Plex-Product': 'Plex Landing',
+      'X-Plex-Device-Name': 'Plex Landing'
+    }
   },
 
   email: {

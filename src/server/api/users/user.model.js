@@ -2,6 +2,9 @@ import Sequelize from 'sequelize';
 
 import { safelyParseJSON, ensureHttpProtocol } from '../../utils/misc';
 
+// TODO
+// Have a flag for requested, approved/rejected, invite pending, and accepted.
+
 export const User = {
   name: 'users',
   schema: {

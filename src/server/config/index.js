@@ -29,4 +29,9 @@ export function all(reload = true) {
   });
 }
 
-export default { all, defaults, User };
+export function save(config = {}) {
+  const userConfig = new User();
+  return userConfig.update(config);
+}
+
+export default { all, defaults, User, save };

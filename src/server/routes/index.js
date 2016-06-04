@@ -4,10 +4,15 @@ import { join } from 'path';
 import Router from 'koa-router';
 import jwt from 'koa-jwt';
 
-import configRoutes from './api/config/config.routes';
-import user from './api/users/user.routes';
-import admin from './api/admin/admin.routes';
-import logger from './logger';
+// Api routes
+import configRoutes from '../api/config/config.routes';
+import user from '../api/users/user.routes';
+import admin from '../api/admin/admin.routes';
+
+// Misc routes
+import auth from './auth';
+
+import logger from '../logger';
 
 const log = logger.create('Router');
 
@@ -41,6 +46,7 @@ function register(app, config) {
       // Secure the api, unless flag set in user.config OR endpoint/route has disabled auth
       if (config.secureApi) {
         if (!endpoint.disableAuth && !x.disableAuth) {
+          // TODO SWITCH OUT JWT AUTH FOR PLEX AUTHENTICATION
           handlers.unshift(jwt({ secret: config.secrets.session }));
         }
       } else {

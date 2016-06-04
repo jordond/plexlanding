@@ -120,6 +120,7 @@
     "moment": "^2.13.0",
     "passport-local": "^1.0.0",
     "pretty-error": "^2.0.0",
+    "request-promise": "^3.0.0",
     "sequelize": "^3.23.2",
     "socket.io": "^1.4.6",
     "sqlite3": "^3.1.4",
