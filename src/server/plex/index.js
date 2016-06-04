@@ -11,6 +11,12 @@ let plexClient = {};
 
 export function grabInfoFromPlexTVButImNotYetImplemented() {}
 
+/**
+ * Load all of the configuration information for plex.
+ * If a unique identifier does not exist, one will be generated and saved;
+ *
+ * @return Object Plex configuration
+ */
 export async function getPlexConfig() {
   const { plex } = await Config.all();
 
@@ -26,6 +32,8 @@ export async function getPlexConfig() {
   return plex;
 }
 
+// TODO Refactor this.
+// Maybe persist the plex settings?
 export async function init() {
   const plexConfig = await getPlexConfig();
 
