@@ -7,7 +7,7 @@ const PLEX_API_BASE = 'https://plex.tv';
 const log = logger.create('PlexTV');
 
 function createPlexUrl(...paths) {
-  return generateUrl(PLEX_API_BASE, paths);
+  return generateUrl(PLEX_API_BASE, ...paths);
 }
 
 const apiPaths = {

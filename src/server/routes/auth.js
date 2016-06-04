@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import PlexTV from '../plex/plextv';
+import Plex from '../plex';
 
 export async function authenticate(ctx) {
   const { login, password } = ctx.request.body;

@@ -1,3 +1,6 @@
+import { resolve } from 'path';
+import urljoin from 'url-join';
+
 export function safelyParseJSON(json) {
   if (!json) {
     return '';
@@ -22,4 +25,12 @@ export function ensureHttpProtocol(url) {
     url = `https://${url}`;
   }
   return url;
+}
+
+export function generateUrl(base, ...paths) {
+  let path = '';
+  for (const p of paths) {
+    path = urljoin(path, p);
+  }
+  return urljoin(base, path);
 }

@@ -124,6 +124,7 @@
     "sequelize": "^3.23.2",
     "socket.io": "^1.4.6",
     "sqlite3": "^3.1.4",
+    "url-join": "^1.1.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
