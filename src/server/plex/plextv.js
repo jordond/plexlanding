@@ -1,6 +1,8 @@
-import http from 'request-promise';
+import hat from 'hat';
 
+import http from '../utils/request';
 import logger from '../logger';
+import Config from '../config';
 import { generateUrl } from '../utils/misc';
 
 const PLEX_API_BASE = 'https://plex.tv';
@@ -11,18 +13,9 @@ function createPlexUrl(...paths) {
 }
 
 const apiPaths = {
-  login: {
-    method: 'GET',
-    uri: createPlexUrl('users', 'sign_in.json')
-  },
-  libraries: {
-    method: 'GET',
-    uri: (serverId) => createPlexUrl('/api/servers', serverId)
-  },
-  invite: {
-    method: 'POST',
-    uri: (serverId) => createPlexUrl('/api/servers', serverId, 'shared_servers')
-  }
+  login: createPlexUrl('users', 'sign_in.json'),
+  libraries: (serverId) => createPlexUrl('/api/servers', serverId),
+  invite: (serverId) => createPlexUrl('/api/servers', serverId, 'shared_servers')
 };
 
 export class PlexTv {
@@ -42,9 +35,9 @@ export class PlexTv {
    *
    * @param Object  config  Plex.tv configuration
    */
-  constructor({ token, headers = {} }) {
-    this.plexToken = token || '';
+  constructor({ token = '', headers = {} } = {}) {
     this.headers = headers;
+    this.setToken(token);
   }
 
   setToken(token = '') {
@@ -56,21 +49,44 @@ export class PlexTv {
     this.headers['X-Plex-Token'] = token || this.plexToken;
   }
 
-  getRequestOptions(path = {}, extra = {}) {
-    return Object.assign(path, extra, { headers: this.headers });
+  hasMinimumHeaderRequirements() {
+    return this.headers['X-Plex-Product']
+      && this.headers['X-Plex-Version']
+      && this.headers['X-Plex-Client-Identifier'];
+  }
+
+  async buildRequestOptions(extra = {}) {
+    if (!this.hasMinimumHeaderRequirements()) {
+      const { plex: { headers } } = await Config.all();
+      if (!headers['X-Plex-Client-Identifier']) {
+        headers['X-Plex-Client-Identifier'] = hat();
+      }
+      this.headers = headers;
+      this.setTokenHeader();
+    }
+    return Object.assign({ headers: this.headers }, extra);
   }
 
   async authenticate(login, password) {
     // Clear out existing token
-    this.setTokenHeader(this.token = '');
+    this.setToken();
 
-    const options = this.getRequestOptions(apiPaths.login, { json: true });
+    log.info(`Attempting to authenticate [${login}] with Plex.tv`);
+    const requestData = {
+      form: {
+        'user[login]': login,
+        'user[password]': password
+      }
+    };
 
     try {
-      const response = await http(options);
-      log.info('response', response);
+      const options = await this.buildRequestOptions();
+      const response = await http.post(apiPaths.login, requestData, options);
+
+      log.info('Successfully authenticated with Plex.TV');
+      return response.user;
     } catch (err) {
-      log.error('Failed to authenticate with Plex.tv', err);
+      log.error('Failed to authenticate with Plex.tv', err.response);
       throw err;
     }
   }

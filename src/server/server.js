@@ -64,8 +64,7 @@ export async function start(config) {
 
   app.on('error', (err, ctx) => {
     if (ctx.status >= 500) {
-      log.error(`Encountered an error for [${ctx.request.method}@${ctx.request.url}]`)
-        .error(err);
+      log.error(`Encountered an error for [${ctx.request.method}@${ctx.request.url}]`);
       if (err.stack) {
         log.error(err.stack);
       }

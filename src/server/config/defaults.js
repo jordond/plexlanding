@@ -55,7 +55,7 @@ export default {
     headers: {
       'X-Plex-Platform': type(),
       'X-Plex-Platform-Version': release(),
-      'X-Plex-Client-Identifier': '',
+      'X-Plex-Client-Identifier': '0e4fefdf75e5408f8d37df136631b728',
       'X-Plex-Product': 'Plex Landing',
       'X-Plex-Device-Name': 'Plex Landing'
     }

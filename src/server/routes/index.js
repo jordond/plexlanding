@@ -68,6 +68,9 @@ function register(app, config) {
     ctx.body = { message: 'Invalid API Route' };
   });
 
+  // Register non-api routes
+  router.post('/login', auth.authenticate);
+
   // Register the static routes
   const indexPath = join(config.paths.root, 'client', 'index.html');
   router.get('/*', async (ctx, next) => {

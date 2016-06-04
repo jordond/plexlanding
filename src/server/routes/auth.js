@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 
+import Config from '../config';
 import Plex from '../plex';
 
 export async function authenticate(ctx) {
@@ -8,20 +9,20 @@ export async function authenticate(ctx) {
     ctx.throw(400, 'Missing credentials');
   }
   try {
-    // Create plextv object
+    const plex = new Plex.Client();
+    const user = await plex.authenticate(login, password);
 
-    // Try to authenticate
+    if (!user) {
+      ctx.throw(401);
+    }
 
-    // Store token in config?
+    const token = user.authentication_token;
+    await Config.save({ plex: { token } });
 
-    // Return 200
+    ctx.body = { user: { token } };
   } catch (err) {
-    ctx.throw(422, err);
+    ctx.throw(err.statusCode, { status: err.statusCode, data: err.error });
   }
 }
 
-export function register(app) {
-  const router = new Router();
-}
-
-export default { register };
+export default { authenticate };

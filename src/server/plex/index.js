@@ -2,12 +2,12 @@ import hat from 'hat';
 
 import logger from '../logger';
 import Config from '../config';
-import PlexTV from './plextv';
+import Client from './plextv';
 
 const log = logger.create('Plex');
 
 const config = {};
-let client = {};
+let plexClient = {};
 
 export function grabInfoFromPlexTVButImNotYetImplemented() {}
 
@@ -29,11 +29,11 @@ export async function init() {
   }
 
   // Setup the plex.tv client
-  client = new PlexTV(plex);
+  plexClient = new Client(plex);
 
   Object.assign(config, plex);
 }
 
-export const Client = () => client;
+export const client = () => plexClient;
 
-export default { init, Client };
+export default { init, Client, client };
