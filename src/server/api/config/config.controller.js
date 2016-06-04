@@ -20,7 +20,7 @@ class Controller {
   }
 
   retrieve(req, res) {
-    configLoader.all().then((config) => {
+    configLoader.load().then((config) => {
       if (!config) {
         return res.status(500).json(createHttpError('Unable to load config', config));
       }

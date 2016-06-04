@@ -18,7 +18,7 @@ export function grabInfoFromPlexTVButImNotYetImplemented() {}
  * @return Object Plex configuration
  */
 export async function getPlexConfig() {
-  const { plex } = await Config.all();
+  const { plex } = await Config.load();
 
   // Generate a unique ID if one doesn't exist
   if (!plex.identifier) {

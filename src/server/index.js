@@ -80,7 +80,7 @@ async function start() {
   const packageInfo = require('../../package.json');
   try {
     // Load the application config
-    const conf = await config.all();
+    const conf = await config.load();
     const dataDir = conf.paths.data;
 
     // Create the data directory if it doesn't already exist

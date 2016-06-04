@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge, isEmpty } from 'lodash';
 
 import defaultConfig from './defaults';
 import User from './user';
@@ -17,8 +17,8 @@ export function defaults() {
  * @param boolean reload  Force a reload of the entire config
  * @returns Promise<object>
  */
-export function all(reload = true) {
-  if (fullConfig && !reload) {
+export function load(reload = false) {
+  if (!isEmpty(fullConfig) && !reload) {
     return Promise.resolve(fullConfig);
   }
 
@@ -31,7 +31,8 @@ export function all(reload = true) {
 
 export function save(config = {}) {
   const userConfig = new User();
+  fullConfig = merge(fullConfig, config);
   return userConfig.update(config);
 }
 
-export default { all, defaults, User, save };
+export default { load, defaults, User, save };
