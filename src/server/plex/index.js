@@ -11,17 +11,25 @@ let plexClient = {};
 
 export function grabInfoFromPlexTVButImNotYetImplemented() {}
 
-export async function init() {
+export async function getPlexConfig() {
   const { plex } = await Config.all();
 
   // Generate a unique ID if one doesn't exist
-  if (!plex.headers['X-Plex-Client-Identifier']) {
+  if (!plex.identifier) {
+    const identifier = hat();
     log.info('Generating a unique identifier');
-    plex.headers['X-Plex-Client-Identifier'] = hat();
-    await Config.save({ plex });
+    plex.identifier = identifier;
+    await Config.save({ plex: { identifier } });
   }
 
-  if (plex.token) {
+  plex.headers['X-Plex-Client-Identifier'] = plex.identifier;
+  return plex;
+}
+
+export async function init() {
+  const plexConfig = await getPlexConfig();
+
+  if (plexConfig.token) {
     grabInfoFromPlexTVButImNotYetImplemented();
   } else {
     log.warn('No plex token exists!')
@@ -29,11 +37,11 @@ export async function init() {
   }
 
   // Setup the plex.tv client
-  plexClient = new Client(plex);
+  plexClient = new Client(plexConfig);
 
-  Object.assign(config, plex);
+  Object.assign(config, plexConfig);
 }
 
 export const client = () => plexClient;
 
-export default { init, Client, client };
+export default { init, Client, client, getPlexConfig };

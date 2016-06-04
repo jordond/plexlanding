@@ -2,7 +2,7 @@ import hat from 'hat';
 
 import http from '../utils/request';
 import logger from '../logger';
-import Config from '../config';
+import { getPlexConfig } from '../plex';
 import { generateUrl } from '../utils/misc';
 
 const PLEX_API_BASE = 'https://plex.tv';
@@ -45,6 +45,10 @@ export class PlexTv {
     this.setTokenHeader();
   }
 
+  clearToken() {
+    this.setToken();
+  }
+
   setTokenHeader(token) {
     this.headers['X-Plex-Token'] = token || this.plexToken;
   }
@@ -57,10 +61,7 @@ export class PlexTv {
 
   async buildRequestOptions(extra = {}) {
     if (!this.hasMinimumHeaderRequirements()) {
-      const { plex: { headers } } = await Config.all();
-      if (!headers['X-Plex-Client-Identifier']) {
-        headers['X-Plex-Client-Identifier'] = hat();
-      }
+      const { headers } = await getPlexConfig();
       this.headers = headers;
       this.setTokenHeader();
     }
@@ -68,10 +69,8 @@ export class PlexTv {
   }
 
   async authenticate(login, password) {
-    // Clear out existing token
-    this.setToken();
-
     log.info(`Attempting to authenticate [${login}] with Plex.tv`);
+    this.clearToken();
     const requestData = {
       form: {
         'user[login]': login,

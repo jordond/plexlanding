@@ -13,7 +13,7 @@ import hat from 'hat';
 import PrettyError from 'pretty-error';
 
 import errorHandler from './middleware/error';
-import configuration from './config';
+import Config from './config';
 import logger from './logger';
 import database from './database';
 import sockets from './sockets';
@@ -30,11 +30,11 @@ export async function start(config) {
   const log = logger.create('Server');
 
   // If the secrets session hasn't been initialized, do so
-  if (config.secrets.session === 'REPLACE') {
+  if (!config.secrets.session) {
+    const uuid = hat();
     log.info('Randomly generating new session secret');
-    const session = { session: hat() };
-    config.secrets.session = session.session;
-    new configuration.User().update({ secrets: session });
+    config.secrets.session = uuid;
+    Config.save(config.secrets);
   }
 
   // Set up the server
