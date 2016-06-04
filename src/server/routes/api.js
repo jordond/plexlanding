@@ -6,7 +6,7 @@ import user from '../api/users/user.routes';
 import admin from '../api/admin/admin.routes';
 
 import logger from '../logger';
-const log = logger.create('Router');
+const log = logger.create('Api');
 
 export function displayInsecureBanner(env) {
   log.warning('=========================================')
@@ -35,8 +35,9 @@ export function register(router, secureApi) {
       }
 
       // Register route with koa-router
+      log.debug(`Registering [${method}@/api${urlBase + route}]`);
       router[method.toLowerCase()](
-        `/api${urlBase}${route}`,
+        `/api${urlBase + route}`,
         ...handlers,
         async (ctx) => await lastHandler(ctx)
       );
