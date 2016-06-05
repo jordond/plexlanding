@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { randomBytes } from 'crypto';
 
 import { promisify } from 'bluebird';
 import urljoin from 'url-join';
@@ -6,6 +7,7 @@ import xml2js from 'xml2js';
 
 import logger from '../logger';
 
+const generateRandom = promisify(randomBytes);
 const parseXml = promisify(xml2js.parseString);
 
 export function safelyParseJSON(json) {
@@ -40,6 +42,10 @@ export function generateUrl(base, ...paths) {
     path = urljoin(path, p);
   }
   return urljoin(base, path);
+}
+
+export function generateRandomHash(bits = 32) {
+  return new Promise(r => generateRandom(bits, (err, result) => r(result.toString('hex'))));
 }
 
 /**

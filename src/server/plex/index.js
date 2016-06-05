@@ -1,5 +1,4 @@
-import hat from 'hat';
-
+import { generateRandomHash } from '../utils/misc';
 import logger from '../logger';
 import Config from '../config';
 import Client from './plextv';
@@ -22,7 +21,7 @@ export async function getPlexConfig() {
 
   // Generate a unique ID if one doesn't exist
   if (!plex.identifier) {
-    const identifier = hat();
+    const identifier = await generateRandomHash(16);
     log.info('Generating a unique identifier');
     plex.identifier = identifier;
     await Config.save({ plex: { identifier } });

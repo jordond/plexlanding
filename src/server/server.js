@@ -9,7 +9,7 @@ import helmet from 'koa-helmet';
 import koaSession from 'koa-session';
 import bodyParser from 'koa-bodyparser';
 import serve from 'koa-static';
-import hat from 'hat';
+import { promisify } from 'bluebird';
 import PrettyError from 'pretty-error';
 
 import errorHandler from './middleware/error';
@@ -18,6 +18,7 @@ import logger from './logger';
 import database from './database';
 import sockets from './sockets';
 import routes from './routes';
+import { generateRandomHash } from './utils/misc';
 
 const pretty = new PrettyError();
 const app = new Koa();
@@ -31,10 +32,10 @@ export async function start(config) {
 
   // If the secrets session hasn't been initialized, do so
   if (!config.secrets.session) {
-    const uuid = hat();
+    const hash = await generateRandomHash();
     log.info('Randomly generating new session secret');
-    config.secrets.session = uuid;
-    Config.save(config.secrets);
+    config.secrets.session = hash;
+    Config.save({ secrets: config.secrets });
   }
 
   // Set up the server
