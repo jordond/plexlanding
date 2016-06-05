@@ -3,6 +3,9 @@ import { type, release } from 'os';
 
 const distDir = join(__dirname, '../../..', 'dist');
 
+// TODO check to make sure if env.DATA_DIR exists check if its writeable
+const dataDir = join(process.env.DATA_DIR || distDir, 'data');
+
 export default {
 
   title: 'Plex Landing', // Add a custom name for your server
@@ -13,25 +16,19 @@ export default {
 
   paths: {
     root: distDir,
-    data: join(process.env.DATA_DIR || distDir, 'data')
-  },
-
-  defaultUser: {
-    username: 'admin',
-    password: 'admin'
+    data: dataDir
   },
 
   secureApi: false,
 
   database: {
     options: {
-      dialect: 'sqlite',
-      storage: join(distDir, 'data'),
+      dialect: 'sqlite'
     },
     name: 'plex-landing',
     username: 'admin',
     password: null,
-    filename: 'database.sqlite',
+    filename: 'database.db',
     force: false
   },
 

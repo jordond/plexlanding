@@ -20,11 +20,23 @@ export const User = {
     comment: {
       type: Sequelize.TEXT
     },
-    isExisting: {
+    requested: {
       type: Sequelize.BOOLEAN,
       default: false
     },
     approved: {
+      type: Sequelize.BOOLEAN,
+      default: false
+    },
+    rejected: {
+      type: Sequelize.BOOLEAN,
+      default: false
+    },
+    pending: {
+      type: Sequelize.BOOLEAN,
+      default: false
+    },
+    friend: {
       type: Sequelize.BOOLEAN,
       default: false
     }

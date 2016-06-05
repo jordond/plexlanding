@@ -4,7 +4,7 @@ export const development = {
   database: {
     username: 'admin',
     password: null,
-    filename: 'database_dev.sqlite',
+    filename: 'database_dev.db',
     force: process.env.FORCE_CREATE || false
   },
 
@@ -17,15 +17,10 @@ export const development = {
 export const production = {
   secureApi: true,
 
-  defaultUser: {
-    username: 'Administrator',
-    password: '$PlexLanding$'
-  },
-
   database: {
     username: 'admin',
     password: null,
-    filename: 'database_prod.sqlite'
+    filename: 'database_prod.db'
   },
 
   log: {

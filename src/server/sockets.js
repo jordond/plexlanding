@@ -23,8 +23,12 @@ function onConnect(socket) {
   socket.on('disconnect', () => onDisconnect(socket));
 }
 
-export function emit(event, data, callback = NOOP) {
+export function emit(event, data, needsAuthentication) {
   log.verbose(`Emitting ${event}`).silly('Data:', data);
+  if (needsAuthentication) {
+    // TODO implement
+    log.warning('Authentication not yet implemented');
+  }
   io.sockets.emit(event, data);
 }
 

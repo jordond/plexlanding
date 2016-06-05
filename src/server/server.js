@@ -63,6 +63,7 @@ export async function start(config) {
   routes.register(app, config);
   sockets.register(app);
 
+  // Generic error handler
   app.on('error', (err, ctx) => {
     if (ctx.status >= 500) {
       log.error(`Encountered an error for [${ctx.request.method}@${ctx.request.url}]`);

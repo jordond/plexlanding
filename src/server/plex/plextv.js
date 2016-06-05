@@ -1,5 +1,3 @@
-import hat from 'hat';
-
 import http from '../utils/request';
 import logger from '../logger';
 import { getPlexConfig } from '../plex';

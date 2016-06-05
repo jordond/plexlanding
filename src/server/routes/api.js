@@ -1,9 +1,7 @@
 import Router from 'koa-router';
 
 // Api routes
-import config from '../api/config/config.routes';
 import user from '../api/users/user.routes';
-import admin from '../api/admin/admin.routes';
 
 import logger from '../logger';
 const log = logger.create('Api');
@@ -20,7 +18,7 @@ export function displayInsecureBanner(env) {
 
 export function register(router, secureApi) {
   // Register each of the api endpoints
-  const endpoints = [user, admin];
+  const endpoints = [user];
   for (const endpoint of endpoints) {
     const { routes, urlBase } = endpoint;
     for (const x of routes) {
