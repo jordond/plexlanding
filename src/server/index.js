@@ -97,7 +97,7 @@ async function start() {
       .info(`Git version     : [${hash}]`)
       .info(`Version Number  : [${packageInfo.version}]`)
       .info(`Using [${resolve(dataDir)}] as data folder`)
-      .info(`Running in [${process.env.NODE_ENV.toUpperCase()}] mode`);
+      .info(`Running in [${conf.env.toUpperCase()}] mode`);
 
     if (process.env.NODE_DOCKER) {
       log.info('Running in DOCKER mode');
