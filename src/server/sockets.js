@@ -27,7 +27,7 @@ export function emit(event, data, needsAuthentication) {
   log.verbose(`Emitting ${event}`).silly('Data:', data);
   if (needsAuthentication) {
     // TODO implement
-    log.warning('Authentication not yet implemented');
+    log.error('Authentication not yet implemented');
   }
   io.sockets.emit(event, data);
 }

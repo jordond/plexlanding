@@ -29,6 +29,7 @@ export function register(router, secureApi) {
       if (secureApi) {
         if (!endpoint.disableAuth && !x.disableAuth) {
           // TODO SWITCH OUT JWT AUTH FOR PLEX AUTHENTICATION
+          log.error('Secure api not yet implemented');
         }
       }
 
