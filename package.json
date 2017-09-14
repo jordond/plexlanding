@@ -8,13 +8,13 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "lint": "tslint --fix src/**/*",
+    "lint": "tslint --type-check --project tsconfig.json --fix src/**/*",
     "pretest": "npm run lint",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "clean:api": "rimraf \"./dist/api\"",
     "prebuild:api": "clean:api",
-    "build:api": "tsc --project ./tsconfig.json",
+    "build:api": "tsc --project ./tsconfig.api.json",
     "dev:api": "nodemon src/api/index.ts",
     "dev:api:debug": "nodemon --inspect=5858 src/api/index.ts",
     "coverage": "npm test -- --coverage"
@@ -61,7 +61,7 @@
     }
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{ts,tsx}"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
     "coverageDirectory": "dist/coverage/",
     "coverageReporters": ["html", "text-summary"],
     "moduleFileExtensions": ["ts", "tsx", "js"],
@@ -69,6 +69,9 @@
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "roots": ["<rootDir>/src/", "<rootDir>/test/"],
-    "testRegex": ".*\\.test.(ts|tsx|js)$"
+    "testMatch": ["<rootDir>/src/**/?(*.)(spec|test).ts?(x)"],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
+    ]
   }
 }
