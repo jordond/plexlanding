@@ -11,5 +11,13 @@
   "tslint.autoFixOnSave": true,
   "tslint.exclude": "**/node_modules/**/*",
   "editor.formatOnSave": true,
-  "code-runner.customCommand": "./node_modules/.bin/ts-node"
+  "code-runner.customCommand": "./node_modules/.bin/ts-node",
+  "code-runner.executorMap": {
+    "typescript": "node_modules/.bin/ts-node"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "dist/coverage": true
+  }
 }
