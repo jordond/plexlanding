@@ -1,0 +1,20 @@
+{
+  "name": "plexlanding",
+  "version": "0.1.0",
+  "description": "A landing page and user management for Plex",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jordond/plexlanding.git"
+  },
+  "author": "Jordon de Hoog",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm run build && npm run watch",
+    "build": "npm run build-sass && npm run build-ts && npm run tslint && npm run copy-static-assets",
+    "test": "jest --forceExit"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
