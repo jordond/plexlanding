@@ -1,21 +1,19 @@
 import { RouteConfiguration, Server } from "hapi";
 
-import apiTestController from "./apiTest.controller";
+import APITestController from "./apiTest.controller";
 
 export default function register(server?: Server): RouteConfiguration[] {
-  const controller = new apiTestController();
+  const controller = new APITestController();
 
   return [
     {
-      config: {
-        handler: controller.getTest
-      },
-      method: "get",
+      handler: controller.getTest,
+      method: "GET",
       path: "/test"
     },
     {
       handler: controller.getTestAsync,
-      method: "get",
+      method: "GET",
       path: "/testAsync"
     }
   ];
