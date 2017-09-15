@@ -9,9 +9,8 @@
   "scripts": {
     "precommit": "lint-staged",
     "lint": "tslint --type-check --project tsconfig.json --fix src/**/*",
-    "pretest": "npm run lint",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
+    "test:watch": "npm test -- --notify --watch",
     "clean:api": "rimraf \"./dist/api\"",
     "prebuild:api": "clean:api",
     "build:api": "tsc --project ./tsconfig.api.json",
@@ -29,20 +28,24 @@
     "url": "https://github.com/jordond/plexlanding/issues"
   },
   "homepage": "https://github.com/jordond/plexlanding#readme",
+  "dependencies": {
+    "hapi": "^16.6.0"
+  },
   "devDependencies": {
+    "@types/hapi": "^16.1.9",
     "@types/jest": "^20.0.8",
     "@types/node": "^8.0.28",
     "husky": "^0.14.3",
-    "jest": "^21.0.2",
+    "jest": "^21.1.0",
     "lint-staged": "^4.1.3",
     "nodemon": "^1.12.0",
-    "prettier": "^1.6.1",
+    "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
-    "ts-jest": "^21.0.0",
+    "ts-jest": "^21.0.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
-    "tslint-config-airbnb": "^5.3.0-beta",
+    "tslint-config-airbnb": "^5.3.0",
     "tslint-config-prettier": "^1.5.0",
     "typescript": "^2.5.2"
   },

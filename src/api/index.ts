@@ -1,5 +1,3 @@
-import { multiply, square } from "./SuperFeature/SuperFeature";
-
 export class TestClass {
   public one: string;
   constructor(parameter: string) {
