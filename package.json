@@ -29,9 +29,11 @@
   },
   "homepage": "https://github.com/jordond/plexlanding#readme",
   "dependencies": {
+    "deep-extend": "^0.5.0",
     "hapi": "^16.6.0"
   },
   "devDependencies": {
+    "@types/deep-extend": "^0.4.30",
     "@types/hapi": "^16.1.9",
     "@types/jest": "^20.0.8",
     "@types/node": "^8.0.28",

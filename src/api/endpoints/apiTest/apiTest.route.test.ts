@@ -1,4 +1,4 @@
-import register from "./apiTest.route";
+import { register } from "./apiTest.route";
 
 describe("API Test's routes", () => {
   const routes = register();

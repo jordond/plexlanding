@@ -2,7 +2,7 @@ import { RouteConfiguration, Server } from "hapi";
 
 import APITestController from "./apiTest.controller";
 
-export default function register(server?: Server): RouteConfiguration[] {
+export function register(server?: Server): RouteConfiguration[] {
   const controller = new APITestController();
 
   return [

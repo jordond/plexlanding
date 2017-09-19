@@ -8,10 +8,10 @@
   "jsRules": {},
   "rules": {
     "no-console": false,
-    "no-boolean-literal-compare": false,
-    "strict-boolean-expressions": false,
     "no-unused-variable": true,
-    "import-name": false
+    "import-name": false,
+    "object-literal-sort-keys": false,
+    "radix": false
   },
   "rulesDirectory": []
 }
