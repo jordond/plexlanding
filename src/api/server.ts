@@ -21,8 +21,7 @@ export function create(config: IServerConfig = defaults): Server {
   server.connection(serverConfig);
 
   // TODO add debug logging for each route registered
-  const baseURL: string =
-    BASE_PREFIX + (Boolean(config.baseURL) ? config.baseURL : "");
+  const baseURL: string = `${config.baseURL || ""}${BASE_PREFIX}`;
   const prefixedRoutes: RouteConfiguration[] = routes.map(x => {
     x.path = baseURL + x.path;
     return x;

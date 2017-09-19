@@ -1,5 +1,3 @@
-/* tslint:disable:strict-boolean-expressions */
-
 import { join, resolve } from "path";
 
 import { ILogConfig } from "../logger/logger.interface";
