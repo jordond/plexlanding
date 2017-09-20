@@ -18,4 +18,9 @@ describe("API Server", () => {
   it("should have a returns a server instance, with default settings", () => {
     expect(server.get()).toBeInstanceOf(Server);
   });
+
+  it("should not auto create a server instance", () => {
+    const testServer: APIServer = new APIServer(undefined, false);
+    expect(testServer.get()).toBeUndefined();
+  });
 });
