@@ -1,6 +1,7 @@
-import * as Server from "./server";
+import { APIServer } from "./server";
 
-Server.create()
+new APIServer()
+  .get()
   .start()
   .then((error: Error) => {
     if (Boolean(error)) {

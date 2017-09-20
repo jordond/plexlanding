@@ -1,4 +1,8 @@
-import { RouteConfiguration, Server, ServerConnectionOptions } from "hapi";
+import {
+  RouteConfiguration,
+  Server as HapiServer,
+  ServerConnectionOptions
+} from "hapi";
 
 import { defaults } from "./config";
 import { IServerConfig } from "./config/defaults";
@@ -7,9 +11,42 @@ import routes from "./endpoints";
 
 export const BASE_PREFIX: string = "/api";
 
-export function create(config: IServerConfig = defaults): Server {
+export class APIServer {
+  public config: IServerConfig;
+  private serverInstance: HapiServer;
+  public constructor(
+    config: IServerConfig = defaults,
+    autoCreate: boolean = true
+  ) {
+    this.config = config;
+    if (autoCreate) {
+      this.serverInstance = createServer(this.config);
+    }
+  }
+
+  public get(): HapiServer {
+    return this.serverInstance;
+  }
+
+  public start(): Promise<boolean> {
+    console.warn("Not yet implemented");
+    return Promise.resolve(false);
+  }
+
+  public stop(): Promise<boolean> {
+    console.warn("Not yet implemented");
+    return Promise.resolve(false);
+  }
+
+  public restart(newConfig: IServerConfig = this.config): Promise<boolean> {
+    console.warn("Not yet implemented");
+    return Promise.resolve(false);
+  }
+}
+
+export function createServer(config: IServerConfig = defaults): HapiServer {
   const port = config.port;
-  const server = new Server();
+  const server = new HapiServer();
 
   const serverConfig: ServerConnectionOptions = {
     port,
