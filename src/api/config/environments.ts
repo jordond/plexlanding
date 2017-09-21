@@ -36,14 +36,8 @@ export const test: IServerConfig = {
   }
 };
 
-export default function getEnvironmentConfig(env: string): IServerConfig {
-  switch (env) {
-    case ENVIRONMENT_DEV:
-      return development;
-    case ENVIRONMENT_PROD:
-      return production;
-    case ENVIRONMENT_TEST:
-      return test;
-  }
-  return { env: ENVIRONMENT_DEV };
+export function getEnvironmentConfig(env: string): IServerConfig {
+  return { development, production, test }[env] || { env: ENVIRONMENT_DEV };
 }
+
+export default getEnvironmentConfig;

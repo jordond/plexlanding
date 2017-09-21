@@ -1,6 +1,7 @@
-import { join, resolve } from "path";
+import { resolve } from "path";
 
 import { ILogConfig } from "../logger/logger.interface";
+import { ENVIRONMENT_DEV } from "./environments";
 
 export interface IServerConfig {
   env: string;
@@ -29,22 +30,26 @@ export interface IDatabaseConfig {
   force?: boolean;
 }
 
-const root = resolve(join(__dirname, "../../../", "dist"));
-const data: string = resolve(join(process.env.DATA_DIR || root, "data"));
+export const DEFAULT_SERVER_PORT: number = 9411;
 
-const defaultConfig: IServerConfig = {
-  title: "Plex Landing",
-  env: process.env.NODE_ENV || "development",
-  port: parseInt(process.env.PORT || "") || 9411,
-  paths: {
-    root,
-    data
-  },
-  isDocker: false,
-  secureAPI: false,
-  baseURL: "",
-  database: {}, // TODO
-  log: {} // TODO
-};
+export function defaultConfig(): IServerConfig {
+  const root = resolve(__dirname, "../../../", "dist");
+  const data: string = resolve(process.env.DATA_DIR || root, "data");
+
+  return {
+    title: "Plex Landing",
+    env: process.env.NODE_ENV || ENVIRONMENT_DEV,
+    port: parseInt(process.env.PORT || "") || DEFAULT_SERVER_PORT,
+    paths: {
+      root,
+      data
+    },
+    isDocker: Boolean(process.env.IS_DOCKER) || false,
+    secureAPI: false,
+    baseURL: "",
+    database: {}, // TODO
+    log: {} // TODO
+  };
+}
 
 export default defaultConfig;
