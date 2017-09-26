@@ -11,7 +11,7 @@ export const ENVIRONMENTS: string[] = [
   ENVIRONMENT_TEST
 ];
 
-export const development: IServerConfig = {
+export const devConfig: IServerConfig = {
   env: ENVIRONMENT_DEV,
   secureAPI: false,
   log: {
@@ -20,7 +20,7 @@ export const development: IServerConfig = {
   }
 };
 
-export const production: IServerConfig = {
+export const prodConfig: IServerConfig = {
   env: ENVIRONMENT_PROD,
   secureAPI: true,
   log: {
@@ -28,7 +28,7 @@ export const production: IServerConfig = {
   }
 };
 
-export const test: IServerConfig = {
+export const testConfig: IServerConfig = {
   env: ENVIRONMENT_TEST,
   secureAPI: false,
   log: {
@@ -37,7 +37,7 @@ export const test: IServerConfig = {
 };
 
 export function getEnvironmentConfig(env: string): IServerConfig {
-  return { development, production, test }[env] || { env: ENVIRONMENT_DEV };
+  return { devConfig, prodConfig, testConfig }[env] || { env: ENVIRONMENT_DEV };
 }
 
 export default getEnvironmentConfig;
