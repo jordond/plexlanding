@@ -9,6 +9,7 @@ import PrettyError from 'pretty-error';
 import server from './server';
 import config from './config';
 import logger from './logger';
+import git from './utils/git';
 
 const pretty = new PrettyError();
 
@@ -36,6 +37,19 @@ function onCtrlC() {
   process.exit(-1);
 }
 process.on('SIGINT', onCtrlC);
+
+/**
+ * Called when SIGTERM is received or when 'docker stop' is issued
+ */
+function onSigterm() {
+  if (process.env.NODE_DOCKER) {
+    log.info('Exit: Docker container is stopping');
+  } else {
+    log.info('Exit: Receiving term signal');
+  }
+  process.exit(0);
+}
+process.on('SIGTERM', onSigterm);
 
 /**
  * Called when an uncaught exception is thrown.
@@ -66,7 +80,7 @@ async function start() {
   const packageInfo = require('../../package.json');
   try {
     // Load the application config
-    const conf = await config.all();
+    const conf = await config.load();
     const dataDir = conf.paths.data;
 
     // Create the data directory if it doesn't already exist
@@ -75,9 +89,19 @@ async function start() {
     // Initialize the logger and create logger instance
     await logger.init(conf);
     log = logger.create('System');
+
+    const hash = await git.hash.long();
+    const branch = await git.branch();
     log.info(`Application name: [${packageInfo.name}]`)
+      .info(`Using branch    : [${branch}]`)
+      .info(`Git version     : [${hash}]`)
       .info(`Version Number  : [${packageInfo.version}]`)
-      .info(`Using [${resolve(dataDir)}] as data folder`);
+      .info(`Using [${resolve(dataDir)}] as data folder`)
+      .info(`Running in [${conf.env.toUpperCase()}] mode`);
+
+    if (process.env.NODE_DOCKER) {
+      log.info('Running in DOCKER mode');
+    }
 
     await server.start(conf);
   } catch (err) {

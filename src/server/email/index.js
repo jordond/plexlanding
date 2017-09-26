@@ -9,7 +9,7 @@ const log = logger.create('Email');
  * @returns object  Email specific config, and the email client.
  */
 function getClient() {
-  return Config.all()
+  return Config.load()
     .then((config) => Object.create({ config: config.email, client: new EmailClient(config.email) }));
 }
 

@@ -9,15 +9,16 @@ import helmet from 'koa-helmet';
 import koaSession from 'koa-session';
 import bodyParser from 'koa-bodyparser';
 import serve from 'koa-static';
-import hat from 'hat';
+import { promisify } from 'bluebird';
 import PrettyError from 'pretty-error';
 
 import errorHandler from './middleware/error';
-import configuration from './config';
+import Config from './config';
 import logger from './logger';
 import database from './database';
 import sockets from './sockets';
 import routes from './routes';
+import { generateRandomHash } from './utils/misc';
 
 const pretty = new PrettyError();
 const app = new Koa();
@@ -30,11 +31,11 @@ export async function start(config) {
   const log = logger.create('Server');
 
   // If the secrets session hasn't been initialized, do so
-  if (config.secrets.session === 'REPLACE') {
+  if (!config.secrets.session) {
+    const hash = await generateRandomHash();
     log.info('Randomly generating new session secret');
-    const session = { session: hat() };
-    config.secrets.session = session.session;
-    new configuration.User().update({ secrets: session });
+    config.secrets.session = hash;
+    Config.save({ secrets: config.secrets });
   }
 
   // Set up the server
@@ -62,10 +63,10 @@ export async function start(config) {
   routes.register(app, config);
   sockets.register(app);
 
+  // Generic error handler
   app.on('error', (err, ctx) => {
     if (ctx.status >= 500) {
-      log.error(`Encountered an error for [${ctx.request.method}@${ctx.request.url}]`)
-        .error(err);
+      log.error(`Encountered an error for [${ctx.request.method}@${ctx.request.url}]`);
       if (err.stack) {
         log.error(err.stack);
       }

@@ -93,25 +93,6 @@ user[password_confirmation]:SuperDuper123
 
 ## Inviting a user to your plex account
 
-```
-POST /api/home/users?invitedEmail=relumiduru%40mswork.ru HTTP/1.1
-Host: plex.tv
-User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36
-Accept: application/json
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-X-Plex-Client-Identifier: <UNIQUE IDENTIFIER>
-X-Plex-Device: Linux
-X-Plex-Device-Name: Plex Landing
-X-Plex-Platform-Version: 0.0.1
-X-Plex-Product: Plex invitation helper
-X-Plex-Token: <INSERT TOKEN HERE>
-Cache-Control: no-cache
-```
-
-## Changing which libraries are shared for invited user
-**Convoluted way?**
-**Sent after user has been invited**
-
 1. Get server id **above**
 2. Get all the libraries for that server (the above method can be used, but this will just return libraries not an array of shared libraries)
 
@@ -130,17 +111,17 @@ Accept: application/json
 3. Post the shared libraries using id's from previous step
 
 ```
-POST /api/servers/<SERVER ID>/shared_servers HTTP/1.1
+POST https://plex.tv/api/servers/<SERVER_ID>/shared_servers
 Host: plex.tv
-Connection: keep-alive
-Accept-Language: en
-X-Plex-Client-Identifier: <IDENTIFIER>
-X-Plex-Device-Name: Plex Web (Chrome)
-X-Plex-Platform: Chrome
-Content-Type: application/json
-Accept: text/plain, */*; q=0.01
-X-Plex-Token: <TOKEN>
-X-Plex-Product: Plex Web
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36
+Accept: application/json
+X-Plex-Client-Identifier: <UNIQUE IDENTIFIER>
+X-Plex-Device: Linux
+X-Plex-Device-Name: Plex Landing
+X-Plex-Platform-Version: 0.0.1
+X-Plex-Product: Plex invitation helper
+X-Plex-Token: <INSERT TOKEN HERE>
+Cache-Control: no-cache
 ```
 
 ```javascript
@@ -153,6 +134,16 @@ Body:
   },
   "sharing_settings":{}
 }
+```
+
+**Response**
+
+```
+<MediaContainer friendlyName="myPlex" identifier="com.plexapp.plugins.myplex" machineIdentifier="<SERVER_ID>" size="1">
+  <SharedServer id="" username="" email="" userID="" accessToken="" name="" acceptedAt="0" invitedAt="" allowSync="0" allowCameraUpload="0" allowChannels="0" owned="0">
+    <Section id="15756428" key="2" title="Movies" type="movie" shared="1"/>
+  </SharedServer>
+</MediaContainer>
 ```
 
 **Note this will return the userID of the user, useful for the below options**

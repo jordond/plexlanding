@@ -22,7 +22,7 @@ class UserConfig {
     return this.read().then((savedConfig) => {
       const merged = merge({}, savedConfig, config);
       log.debug('Saving new config: ', config);
-      emit('userconfig:save', config);
+      emit('config:save', config);
       jsonfile.writeFile(configPath, merged, { spaces: 2 }, (err) => {
         if (err) {
           log.error('Saving config failed', err);

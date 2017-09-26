@@ -21,3 +21,4 @@ typings/
 dist/server/
 dist/client/
 dist/data/
+test.js

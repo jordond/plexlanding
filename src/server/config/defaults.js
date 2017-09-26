@@ -1,10 +1,14 @@
 import { join } from 'path';
+import { type, release } from 'os';
 
 const distDir = join(__dirname, '../../..', 'dist');
 
+// TODO check to make sure if env.DATA_DIR exists check if its writeable
+const dataDir = join(process.env.DATA_DIR || distDir, 'data');
+
 export default {
 
-  title: 'Plex Landing',
+  title: 'Plex Landing', // Add a custom name for your server
 
   env: process.env.NODE_ENV || 'development',
 
@@ -12,25 +16,19 @@ export default {
 
   paths: {
     root: distDir,
-    data: join(process.env.DATA_DIR || distDir, 'data')
-  },
-
-  defaultUser: {
-    username: 'admin',
-    password: 'admin'
+    data: dataDir
   },
 
   secureApi: false,
 
   database: {
     options: {
-      dialect: 'sqlite',
-      storage: join(distDir, 'data'),
+      dialect: 'sqlite'
     },
     name: 'plex-landing',
     username: 'admin',
     password: null,
-    filename: 'database.sqlite',
+    filename: 'database.db',
     force: false
   },
 
@@ -43,7 +41,21 @@ export default {
   },
 
   secrets: {
-    session: 'REPLACE'
+    session: ''
+  },
+
+  plex: {
+    url: 'https://app.plex.tv/web/app',
+    hostname: 'localhost',
+    port: 32400,
+    token: '',
+    identifier: '',
+    headers: {
+      'X-Plex-Platform': type(),
+      'X-Plex-Platform-Version': release(),
+      'X-Plex-Product': 'Plex Landing',
+      'X-Plex-Device-Name': 'Plex Landing'
+    }
   },
 
   email: {
