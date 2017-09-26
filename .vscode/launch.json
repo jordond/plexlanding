@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Jest",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": ["--runInBand", "--no-cache"],
+      "cwd": "${workspaceRoot}",
+      "sourceMaps": true,
+      "smartStep": true
+    },
+    {
       "name": "Nodemon",
       "type": "node",
       "request": "launch",
@@ -28,15 +38,6 @@
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/ts-node/dist/_bin.js",
       "args": ["--no-cache", "${relativeFile}"],
-      "cwd": "${workspaceRoot}",
-      "protocol": "inspector"
-    },
-    {
-      "name": "Current TS Tests File",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/.bin/_mocha",
-      "args": ["--no-cache", "-r", "ts-node/register", "${relativeFile}"],
       "cwd": "${workspaceRoot}",
       "protocol": "inspector"
     },

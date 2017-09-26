@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A landing page and user management portal for Plex",
   "main": "index.js",
+  "engines": {
+    "node": ">=7.10.1"
+  },
   "directories": {
     "test": "test"
   },
@@ -12,8 +15,8 @@
     "test": "jest",
     "test:watch": "npm test -- --notify --watch",
     "clean:api": "rimraf \"./dist/api\"",
-    "prebuild:api": "clean:api",
-    "build:api": "tsc --project ./tsconfig.api.json",
+    "prebuild:api": "npm run clean:api",
+    "build:api": "tsc --project ./configs/tsconfig.api.json",
     "dev:api": "nodemon src/api/index.ts",
     "dev:api:debug": "nodemon --inspect=5858 src/api/index.ts",
     "coverage": "npm test -- --coverage"
@@ -66,6 +69,11 @@
     }
   },
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "./configs/tsconfig.jest.json"
+      }
+    },
     "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
     "coverageDirectory": "dist/coverage/",
     "coverageReporters": ["html", "text-summary"],
