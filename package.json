@@ -33,18 +33,18 @@
   "homepage": "https://github.com/jordond/plexlanding#readme",
   "dependencies": {
     "deep-extend": "^0.5.0",
-    "hapi": "^16.6.0"
+    "hapi": "^16.6.2"
   },
   "devDependencies": {
     "@types/deep-extend": "^0.4.30",
-    "@types/hapi": "^16.1.9",
-    "@types/jest": "^20.0.8",
-    "@types/node": "^8.0.28",
+    "@types/hapi": "^16.1.10",
+    "@types/jest": "^21.1.1",
+    "@types/node": "^8.0.31",
     "cross-env": "^5.0.5",
     "husky": "^0.14.3",
-    "jest": "^21.1.0",
-    "lint-staged": "^4.1.3",
-    "nodemon": "^1.12.0",
+    "jest": "^21.2.0",
+    "lint-staged": "^4.2.3",
+    "nodemon": "^1.12.1",
     "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
@@ -53,7 +53,7 @@
     "tslint": "^5.7.0",
     "tslint-config-airbnb": "^5.3.0",
     "tslint-config-prettier": "^1.5.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.3"
   },
   "lint-staged": {
     "*.{json,css,scss}": ["prettier --write", "git add"],
