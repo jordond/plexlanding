@@ -15,7 +15,7 @@ export class APIServer {
   public config: IServerConfig;
   private serverInstance: HapiServer;
   public constructor(
-    config: IServerConfig = defaults,
+    config: IServerConfig = defaults(),
     autoCreate: boolean = true
   ) {
     this.config = config;
@@ -29,23 +29,21 @@ export class APIServer {
   }
 
   public start(): Promise<boolean> {
-    console.warn("Not yet implemented");
-    return Promise.resolve(false);
+    throw new Error("Not yet implemented");
   }
 
   public stop(): Promise<boolean> {
-    console.warn("Not yet implemented");
-    return Promise.resolve(false);
+    throw new Error("Not yet implemented");
   }
 
   public restart(newConfig: IServerConfig = this.config): Promise<boolean> {
-    console.warn("Not yet implemented");
-    return Promise.resolve(false);
+    throw new Error("Not yet implemented");
   }
 }
 
-export function createServer(config: IServerConfig = defaults): HapiServer {
-  const port = config.port;
+export function createServer(
+  { port, baseURL = "" }: IServerConfig = defaults()
+): HapiServer {
   const server = new HapiServer();
 
   const serverConfig: ServerConnectionOptions = {
@@ -58,10 +56,10 @@ export function createServer(config: IServerConfig = defaults): HapiServer {
   server.connection(serverConfig);
 
   // TODO add debug logging for each route registered
-  const baseURL: string = `${config.baseURL || ""}${BASE_PREFIX}`;
+  const combinedBaseURL: string = `${baseURL || ""}${BASE_PREFIX}`;
   const prefixedRoutes: RouteConfiguration[] = routes.map(x => {
-    x.path = baseURL + x.path;
-    return x;
+    const path = combinedBaseURL + x.path;
+    return { ...x, path };
   });
 
   prefixedRoutes.forEach(x => server.route(x));
