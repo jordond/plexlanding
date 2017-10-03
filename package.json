@@ -20,7 +20,7 @@
     "dev:api": "nodemon src/api/index.ts",
     "dev:api:debug": "nodemon --inspect=5858 src/api/index.ts",
     "coverage": "npm test -- --coverage",
-    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
