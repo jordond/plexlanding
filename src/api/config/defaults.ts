@@ -36,6 +36,8 @@ export function defaultConfig(): IServerConfig {
   const root = resolve(__dirname, "../../../", "dist");
   const data: string = resolve(process.env.DATA_DIR || root, "data");
 
+  // TODO ensure data directory exists
+
   return {
     title: "Plex Landing",
     env: process.env.NODE_ENV || ENVIRONMENT_DEV,

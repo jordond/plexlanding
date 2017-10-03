@@ -7,19 +7,19 @@ export interface ILogConfig {
 }
 
 export enum LogLevel {
-  FATAL = 0,
-  ERROR,
+  ERROR = 0,
   WARN,
   INFO,
+  VERBOSE,
   DEBUG,
-  TRACE
+  SILLY
 }
 
 export const logLevels: LogLevel[] = [
-  LogLevel.FATAL,
   LogLevel.ERROR,
   LogLevel.WARN,
   LogLevel.INFO,
+  LogLevel.VERBOSE,
   LogLevel.DEBUG,
-  LogLevel.TRACE
+  LogLevel.SILLY
 ];
