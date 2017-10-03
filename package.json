@@ -19,7 +19,8 @@
     "build:api": "tsc --project ./configs/tsconfig.api.json",
     "dev:api": "nodemon src/api/index.ts",
     "dev:api:debug": "nodemon --inspect=5858 src/api/index.ts",
-    "coverage": "npm test -- --coverage"
+    "coverage": "npm test -- --coverage",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -44,11 +45,13 @@
     "@types/hapi": "^16.1.10",
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
+    "coveralls": "^3.0.0",
     "cross-env": "^5.0.5",
     "husky": "^0.14.3",
     "jest": "^21.2.0",
     "lint-staged": "^4.2.3",
     "nodemon": "^1.12.1",
+    "nyc": "^11.2.1",
     "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
@@ -79,9 +82,10 @@
         "tsConfigFile": "./configs/tsconfig.jest.json"
       }
     },
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "coverageDirectory": "dist/coverage/",
-    "coverageReporters": ["html", "text-summary"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
+    "coverageDirectory": "coverage/",
+    "coverageReporters": ["lcov", "html", "text-summary"],
+    "mapCoverage": true,
     "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
