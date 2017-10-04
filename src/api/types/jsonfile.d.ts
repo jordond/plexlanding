@@ -21,6 +21,9 @@ declare module "jsonfile" {
     ) => void;
   }
 
+  /* tslint:disable-next-line:function-name */
+  export function __setReadResult(result: object): void;
+
   export function readFile(
     file: string,
     callback: (err: object, data: object) => void
@@ -28,20 +31,20 @@ declare module "jsonfile" {
 
   export function readFile(
     file: string,
-    options: string | object,
+    options: string | IOptions,
     callback: (err: object, data: object) => void
   ): void;
 
   export function writeFile(
     file: string,
     data: object,
-    callback: (err: object, data: any) => void
+    callback: (err: object) => void
   ): void;
 
   export function writeFile(
     file: string,
     data: object,
-    options: object,
-    callback: (err: object, data: any) => void
+    options: IOptions,
+    callback: (err: object) => void
   ): void;
 }
