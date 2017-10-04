@@ -20,5 +20,5 @@
     "**/node_modules": true,
     "dist/coverage": true
   },
-  "jest.pathToJest": "npm run test -- "
+  "jest.pathToJest": "npm test -- --coverage"
 }

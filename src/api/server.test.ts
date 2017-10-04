@@ -42,45 +42,64 @@ describe("API Server", () => {
     expect(server.stop).toThrow();
   });
 
+  // TODO add check to make sure server restarts with new config
   it("should throw error on server.restart", () => {
-    const restartTest = () => server.restart(defaults(ENVIRONMENT_PROD));
+    const restartTest = () => server.restart(defaults());
     expect(restartTest).toThrow();
     expect(server.restart).toThrow();
   });
 
-  it("should create a hapi server object with supplied config", () => {
-    const createdServer: Server = createServer({
-      env: ENVIRONMENT_PROD,
-      port: 1111,
-      baseURL: "/v1"
+  describe("Creating Hapi Server", () => {
+    it("should use supplied config", () => {
+      const createdServer: Server = createServer({
+        port: 1111,
+        baseURL: "/v1"
+      });
+      expect(createdServer).toBeInstanceOf(Server);
+      expect(createdServer.info!.port).toBe(1111);
+
+      testRoutes(createdServer, `/v1${BASE_PREFIX}`);
     });
-    expect(createdServer).toBeInstanceOf(Server);
-    expect(createdServer.info!.port).toBe(1111);
 
-    testRoutes(
-      createdServer,
-      new RegExp(escapeRegexString(`/v1${BASE_PREFIX}`), "g")
-    );
-  });
+    it("should have a default port if not passed but baseURL was", () => {
+      const { port: defaultPort } = defaults();
+      const createdServer: Server = createServer({
+        baseURL: "/foo"
+      });
 
-  it("should create a hapi server with default config", () => {
-    const { port, baseURL } = defaults();
-    const createdServer: Server = createServer();
+      expect(createdServer.info!.port).toBe(defaultPort);
+    });
 
-    expect(createdServer).toBeInstanceOf(Server);
-    expect(createdServer.info!.port).toBe(port);
+    it("should use supplied port", () => {
+      const port = 8666;
+      const createdServer: Server = createServer({ port });
+      expect(createdServer.info!.port).toBe(port);
+    });
 
-    testRoutes(
-      createdServer,
-      new RegExp(escapeRegexString(`${baseURL}${BASE_PREFIX}`), "g")
-    );
+    it("should use custom base URL", () => {
+      const { baseURL } = { ...defaults(), baseURL: "/superTest" };
+      const createdServer: Server = createServer({ baseURL });
+      testRoutes(createdServer, `${baseURL}${BASE_PREFIX}`);
+    });
+
+    it("should use the default config", () => {
+      const { port, baseURL } = defaults();
+      const createdServer: Server = createServer();
+
+      expect(createdServer).toBeInstanceOf(Server);
+      expect(createdServer.info!.port).toBe(port);
+
+      testRoutes(createdServer, `${baseURL}${BASE_PREFIX}`);
+    });
   });
 });
 
-function testRoutes(server: Server, routeReg: RegExp): void {
+function testRoutes(server: Server, routeRegStr: string): void {
   const routes = server.connections[0].table();
+  const reg: RegExp = new RegExp(escapeRegexString(routeRegStr), "g");
+
   expect(routes).toBeInstanceOf(Array);
   expect(routes.length).toBeGreaterThan(0);
 
-  routes.forEach(route => expect(route.path.match(routeReg)).toBeTruthy());
+  routes.forEach(route => expect(route.path.match(reg)).toBeTruthy());
 }

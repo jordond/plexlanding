@@ -1,4 +1,4 @@
-import * as merge from "deep-extend";
+import { merge } from "lodash";
 import { IOptions, readFile, writeFile } from "jsonfile";
 
 import { defaults } from "./";
@@ -23,7 +23,7 @@ export async function save(
     opts.spaces = 2;
   }
   const savedConfig: IServerConfig = await read();
-  const merged: IServerConfig = merge(config, savedConfig);
+  const merged: IServerConfig = merge({}, savedConfig, config);
   return new Promise<boolean>((resolve, reject) => {
     writeFile(
       opts.path || defaultDataDir,

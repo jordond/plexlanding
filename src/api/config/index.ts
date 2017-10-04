@@ -1,9 +1,13 @@
-import * as merge from "deep-extend";
+import { merge } from "lodash";
 
-import { defaultConfig as getDefaults, IServerConfig } from "./defaults";
+import {
+  DEFAULT_ENV,
+  defaultConfig as getDefaults,
+  IServerConfig
+} from "./defaults";
 import { getEnvironmentConfig } from "./environments";
 
 export function defaults(env: string = ""): IServerConfig {
   const defaultConfig = getDefaults();
-  return merge(getEnvironmentConfig(env || defaultConfig.env), defaultConfig);
+  return merge({}, defaultConfig, getEnvironmentConfig(env || DEFAULT_ENV));
 }

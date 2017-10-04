@@ -24,6 +24,7 @@ export const production: IServerConfig = {
   env: ENVIRONMENT_PROD,
   secureAPI: true,
   log: {
+    filename: "server.log",
     level: LogLevel.INFO
   }
 };

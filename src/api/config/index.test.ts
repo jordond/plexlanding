@@ -1,4 +1,4 @@
-import * as merge from "deep-extend";
+import { merge } from "lodash";
 
 import { defaults } from "./";
 import { defaultConfig as getDefaults, IServerConfig } from "./defaults";
@@ -12,15 +12,20 @@ describe("Merging of configs", () => {
   });
 
   it("should merge defaults with dev config", () => {
-    testMergedDefaults(environment.ENVIRONMENT_DEV);
+    const mergedDefaults = testMergedDefaults(environment.ENVIRONMENT_DEV);
+    expect(mergedDefaults.secureAPI).toBeFalsy();
   });
 
   it("should merge defaults with prod config", () => {
-    testMergedDefaults(environment.ENVIRONMENT_PROD);
+    const mergedDefaults = testMergedDefaults(environment.ENVIRONMENT_PROD);
+    expect(mergedDefaults.secureAPI).toBeTruthy();
   });
 
   it("should merge defaults with test config", () => {
-    testMergedDefaults(environment.ENVIRONMENT_TEST);
+    const mergedDefaults = testMergedDefaults(environment.ENVIRONMENT_TEST);
+    expect(mergedDefaults.secureAPI).toBeFalsy();
+    expect(mergedDefaults.log).toBeTruthy();
+    expect(mergedDefaults.log!.silent).toBeTruthy();
   });
 
   it("should have env === dev if invalid NODE_ENV is set", () => {
@@ -35,12 +40,15 @@ describe("Merging of configs", () => {
   });
 });
 
-function testMergedDefaults(env: string): void {
+function testMergedDefaults(env: string): IServerConfig {
   process.env.NODE_ENV = env;
   const expectedDefaults: IServerConfig = getMergedConfig(env);
-  expect(defaults()).toEqual(expectedDefaults);
+  const mergedConfig: IServerConfig = defaults(env);
+
+  expect(mergedConfig).toEqual(expectedDefaults);
+  return mergedConfig;
 }
 
 function getMergedConfig(env: string): IServerConfig {
-  return merge(environment.getEnvironmentConfig(env), getDefaults());
+  return merge({}, getDefaults(), environment.getEnvironmentConfig(env));
 }
