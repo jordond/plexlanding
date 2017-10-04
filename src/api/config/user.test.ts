@@ -19,6 +19,11 @@ describe("User config", () => {
       expect(result.env).toBe("development");
     });
 
+    it("should return an empty object", async () => {
+      __setReadResult({});
+      await expect(read()).resolves.toEqual({});
+    });
+
     it.skip("should read the config from the disk", () => {
       expect(read()).toBe({});
     });
