@@ -44,7 +44,7 @@
     "@types/hapi": "^16.1.10",
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
-    "coveralls": "^3.0.0",
+    "codecov": "^2.3.0",
     "cross-env": "^5.0.5",
     "husky": "^0.14.3",
     "jest": "^21.2.0",
