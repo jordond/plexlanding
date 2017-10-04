@@ -43,6 +43,8 @@ describe("API Server", () => {
   });
 
   it("should throw error on server.restart", () => {
+    const restartTest = () => server.restart(defaults(ENVIRONMENT_PROD));
+    expect(restartTest).toThrow();
     expect(server.restart).toThrow();
   });
 
