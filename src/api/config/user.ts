@@ -1,5 +1,5 @@
-import { merge } from "lodash";
 import { IOptions, readFile, writeFile } from "jsonfile";
+import { merge } from "lodash";
 
 import { defaults } from "./";
 import { IServerConfig } from "./defaults";
