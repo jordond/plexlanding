@@ -5,7 +5,11 @@ export async function ensureDirectoryExists(
   options?: object
 ): Promise<boolean> {
   try {
-    return await Boolean(mkdirp(directory, options));
+    if (!directory) {
+      return false;
+    }
+    const result = await mkdirp(directory, options);
+    return Boolean(result);
   } catch (error) {
     return false;
   }
