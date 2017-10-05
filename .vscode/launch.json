@@ -12,7 +12,8 @@
       "args": ["--runInBand", "--no-cache"],
       "cwd": "${workspaceRoot}",
       "sourceMaps": true,
-      "smartStep": true
+      "smartStep": true,
+      "skipFiles": ["<node_internals>/**"]
     },
     {
       "name": "Nodemon",
