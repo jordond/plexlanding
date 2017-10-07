@@ -8,19 +8,20 @@ export function __setReadResult(result: IServerConfig) {
   mockReadResult = result;
 }
 
-export function readFile(
-  path: string,
-  opts: object,
-  callback: (err?: object, data?: any) => void
-) {
-  if (Object.keys(mockReadResult).length === 0) {
-    callback(new Error("No config was found"), null);
-  } else {
-    callback(undefined, mockReadResult);
+export const readFile = jest.fn(
+  (
+    path: string,
+    opts: object,
+    callback: (err?: object, data?: any) => void
+  ) => {
+    if (Object.keys(mockReadResult).length === 0) {
+      callback(new Error("No config was found"), null);
+    } else {
+      callback(undefined, mockReadResult);
+    }
   }
-}
+);
 
-jsonfile.__setReadResult = __setReadResult;
-jsonfile.readFile = readFile;
+export const writeFile = jest.fn((a, b, c, cb) => cb(null));
 
 export default jsonfile;

@@ -1,8 +1,18 @@
+import { __setReadResult, readFile, writeFile } from "jsonfile";
+import { IServerConfig } from "./defaults";
+import { read, save } from "./user";
+
 jest.mock("jsonfile");
 
-import { __setReadResult } from "jsonfile";
-import { IServerConfig } from "./defaults";
-import { read } from "./user";
+const STUB_CONFIG_PATH: string = "/path/to/file.json";
+const STUB_READ_OPTIONS: object = { im: "fake" };
+const STUB_SAVE_CONFIG: IServerConfig = {
+  title: "Testing",
+  port: 7777
+};
+
+const mockReadFile = readFile as jest.Mock<any>;
+const mockWriteFile = writeFile as jest.Mock<any>;
 
 describe("User config", () => {
   describe("Read", () => {
@@ -10,31 +20,82 @@ describe("User config", () => {
       __setReadResult({ env: "development" });
     });
 
+    afterEach(() => {
+      mockReadFile.mockClear();
+    });
+
     it("should return a promise", () => {
-      expect(read()).toBeInstanceOf(Promise);
+      expect(read("")).toBeInstanceOf(Promise);
+      expect(mockReadFile).toBeCalled();
     });
 
     it("should return development env", async () => {
-      const result: IServerConfig = await read();
+      const result: IServerConfig = await read(STUB_CONFIG_PATH);
       expect(result.env).toBe("development");
     });
 
     it("should return an empty object", async () => {
       __setReadResult({});
-      await expect(read()).resolves.toEqual({});
+      await expect(read(STUB_CONFIG_PATH)).resolves.toEqual({});
     });
 
-    it.skip("should read the config from the disk", () => {
-      expect(read()).toBe({});
+    it("should use supplied path", async () => {
+      await read(STUB_CONFIG_PATH);
+      expect(mockReadFile.mock.calls[0][0]).toEqual(STUB_CONFIG_PATH);
+    });
+
+    it("should use supplied path and options", async () => {
+      await read(STUB_CONFIG_PATH, STUB_READ_OPTIONS);
+      expect(mockReadFile.mock.calls[0][0]).toEqual(STUB_CONFIG_PATH);
+      expect(mockReadFile.mock.calls[0][1]).toEqual(STUB_READ_OPTIONS);
     });
   });
 
-  it.skip("should save the config to the disk", async () => {
-    // const saved: boolean = await save(
-    //   { env: "test" },
-    //   { path: "/path/to/something" }
-    // );
-    // expect(saved).toBeTruthy();
-    // TODO mock the fs.write function, make sure the correct data is saved
+  describe("Save", () => {
+    afterEach(() => {
+      mockWriteFile.mockClear();
+    });
+
+    it("should return a promise", async () => {
+      const promise = save(STUB_SAVE_CONFIG, { path: STUB_CONFIG_PATH });
+      expect(promise).toBeInstanceOf(Promise);
+
+      await promise;
+      expect(mockWriteFile).toBeCalled();
+    });
+
+    it("should throw an invalid path error", async () => {
+      await expect(save({}, { path: "" })).rejects.toBeInstanceOf(Error);
+      expect(mockWriteFile).not.toBeCalled();
+    });
+
+    it('should use supplied "spaces" argument', async () => {
+      await save({}, { path: STUB_CONFIG_PATH, spaces: 4 });
+      expect(mockWriteFile.mock.calls[0][2]).toEqual({ spaces: 4 });
+    });
+
+    it("should save the existing config with the new", async () => {
+      mockReadFile.mockImplementationOnce((a, b, cb) =>
+        cb(null, { title: "bar", port: 8888, baseURL: "/foo" })
+      );
+
+      expect(
+        await save({ title: "foo", port: 9999 }, { path: STUB_CONFIG_PATH })
+      ).toBe(true);
+      expect(mockWriteFile.mock.calls[0][1]).toEqual({
+        title: "foo",
+        port: 9999,
+        baseURL: "/foo"
+      });
+    });
+
+    it("should handle a failed save", async () => {
+      mockWriteFile.mockImplementationOnce((a, b, c, cb) =>
+        cb(new Error("foo"))
+      );
+      await expect(save({}, { path: STUB_CONFIG_PATH })).rejects.toBeInstanceOf(
+        Error
+      );
+    });
   });
 });

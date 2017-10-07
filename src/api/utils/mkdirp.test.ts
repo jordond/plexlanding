@@ -3,7 +3,7 @@ import * as mkdirp from "mkdirp-promise";
 import { ensureDirectoryExists } from "./mkdirp";
 
 jest.mock("mkdirp-promise");
-const mockMkdirp = mkdirp as jest.Mocked<any>;
+const mockMkdirp = mkdirp as jest.Mock<any>;
 const STUB_FAKE_PATH = "/i/am/a/fake/path";
 
 describe("Filesystem Utils", () => {
