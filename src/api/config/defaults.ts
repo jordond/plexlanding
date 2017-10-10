@@ -4,7 +4,7 @@ import { ILogConfig } from "../logger/logger.interface";
 import { ENVIRONMENT_DEV } from "./environments";
 
 export interface IServerConfig {
-  env: string;
+  env?: string; // TODO consider making this an optional parameter, and checking for it where needed
   title?: string;
   port?: number;
   paths?: IServerPaths;
@@ -31,14 +31,16 @@ export interface IDatabaseConfig {
 }
 
 export const DEFAULT_SERVER_PORT: number = 9411;
-
+export const DEFAULT_ENV: string = ENVIRONMENT_DEV;
 export function defaultConfig(): IServerConfig {
   const root = resolve(__dirname, "../../../", "dist");
   const data: string = resolve(process.env.DATA_DIR || root, "data");
 
+  // TODO ensure data directory exists
+
   return {
     title: "Plex Landing",
-    env: process.env.NODE_ENV || ENVIRONMENT_DEV,
+    env: process.env.NODE_ENV || DEFAULT_ENV,
     port: parseInt(process.env.PORT || "") || DEFAULT_SERVER_PORT,
     paths: {
       root,

@@ -1,8 +1,4 @@
-import {
-  RouteConfiguration,
-  Server as HapiServer,
-  ServerConnectionOptions
-} from "hapi";
+import { RouteConfiguration, Server as HapiServer } from "hapi";
 
 import { defaults } from "./config";
 import { IServerConfig } from "./config/defaults";
@@ -14,11 +10,8 @@ export const BASE_PREFIX: string = "/api";
 export class APIServer {
   public config: IServerConfig;
   private serverInstance: HapiServer;
-  public constructor(
-    config: IServerConfig = defaults(),
-    autoCreate: boolean = true
-  ) {
-    this.config = config;
+  public constructor(config?: IServerConfig, autoCreate: boolean = true) {
+    this.config = config || defaults();
     if (autoCreate) {
       this.serverInstance = createServer(this.config);
     }
@@ -42,25 +35,23 @@ export class APIServer {
 }
 
 export function createServer(
-  { port, baseURL = "" }: IServerConfig = defaults()
+  { port = defaults().port, baseURL = "" }: IServerConfig = {}
 ): HapiServer {
   const server = new HapiServer();
 
-  const serverConfig: ServerConnectionOptions = {
+  server.connection({
     port,
     routes: {
       cors: true
     }
-  };
-
-  server.connection(serverConfig);
+  });
 
   // TODO add debug logging for each route registered
   const combinedBaseURL: string = `${baseURL || ""}${BASE_PREFIX}`;
-  const prefixedRoutes: RouteConfiguration[] = routes.map(x => {
-    const path = combinedBaseURL + x.path;
-    return { ...x, path };
-  });
+  const prefixedRoutes: RouteConfiguration[] = routes.map(x => ({
+    ...x,
+    path: combinedBaseURL + x.path
+  }));
 
   prefixedRoutes.forEach(x => server.route(x));
 

@@ -33,3 +33,6 @@ Thumbs.db
 
 # Ignore built ts files
 dist/**/*
+
+# Coverage reports
+coverage/

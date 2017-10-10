@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "precommit": "lint-staged",
+    "precommit": "lint-staged && npm run coverage",
     "lint": "tslint --type-check --project tsconfig.json --fix src/**/*",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "npm test -- --notify --watch",
@@ -26,25 +26,31 @@
     "url": "git+https://github.com/jordond/plexlanding.git"
   },
   "author": "Jordon de Hoog",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/jordond/plexlanding/issues"
   },
   "homepage": "https://github.com/jordond/plexlanding#readme",
   "dependencies": {
-    "deep-extend": "^0.5.0",
-    "hapi": "^16.6.2"
+    "hapi": "^16.6.2",
+    "jsonfile": "^4.0.0",
+    "lodash": "^4.17.4",
+    "mkdirp-promise": "^5.0.1",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
-    "@types/deep-extend": "^0.4.30",
     "@types/hapi": "^16.1.10",
     "@types/jest": "^21.1.1",
+    "@types/lodash": "^4.14.77",
     "@types/node": "^8.0.31",
+    "@types/winston": "^2.3.6",
+    "codecov": "^2.3.0",
     "cross-env": "^5.0.5",
     "husky": "^0.14.3",
     "jest": "^21.2.0",
     "lint-staged": "^4.2.3",
     "nodemon": "^1.12.1",
+    "nyc": "^11.2.1",
     "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
@@ -57,7 +63,7 @@
   },
   "lint-staged": {
     "*.{json,css,scss}": ["prettier --write", "git add"],
-    "*.ts": ["lint", "prettier --write", "test", "git add"]
+    "*.ts": ["lint", "prettier --write", "git add"]
   },
   "nodemonConfig": {
     "restartable": "rs",
@@ -75,9 +81,10 @@
         "tsConfigFile": "./configs/tsconfig.jest.json"
       }
     },
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "coverageDirectory": "dist/coverage/",
-    "coverageReporters": ["html", "text-summary"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
+    "coverageDirectory": "coverage/",
+    "coverageReporters": ["lcov", "html", "text-summary"],
+    "mapCoverage": true,
     "moduleFileExtensions": ["ts", "tsx", "js"],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
