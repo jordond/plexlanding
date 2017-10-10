@@ -10,8 +10,9 @@ export function read(path: string, opts: object = {}): Promise<IServerConfig> {
 }
 
 export function save(
+  path: string,
   config: IServerConfig,
-  { path, spaces = 2, ...opts }: IOptions
+  { spaces = 2, ...opts }: IOptions = {}
 ): Promise<boolean> {
   return new Promise<boolean>(async (resolve, reject) => {
     if (!path) {

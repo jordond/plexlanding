@@ -57,7 +57,7 @@ describe("User config", () => {
     });
 
     it("should return a promise", async () => {
-      const promise = save(STUB_SAVE_CONFIG, { path: STUB_CONFIG_PATH });
+      const promise = save(STUB_CONFIG_PATH, STUB_SAVE_CONFIG);
       expect(promise).toBeInstanceOf(Promise);
 
       await promise;
@@ -65,12 +65,12 @@ describe("User config", () => {
     });
 
     it("should throw an invalid path error", async () => {
-      await expect(save({}, { path: "" })).rejects.toBeInstanceOf(Error);
+      await expect(save("", {})).rejects.toBeInstanceOf(Error);
       expect(mockWriteFile).not.toBeCalled();
     });
 
     it('should use supplied "spaces" argument', async () => {
-      await save({}, { path: STUB_CONFIG_PATH, spaces: 4 });
+      await save(STUB_CONFIG_PATH, {}, { spaces: 4 });
       expect(mockWriteFile.mock.calls[0][2]).toEqual({ spaces: 4 });
     });
 
@@ -79,9 +79,9 @@ describe("User config", () => {
         cb(null, { title: "bar", port: 8888, baseURL: "/foo" })
       );
 
-      expect(
-        await save({ title: "foo", port: 9999 }, { path: STUB_CONFIG_PATH })
-      ).toBe(true);
+      expect(await save(STUB_CONFIG_PATH, { title: "foo", port: 9999 })).toBe(
+        true
+      );
       expect(mockWriteFile.mock.calls[0][1]).toEqual({
         title: "foo",
         port: 9999,
@@ -93,9 +93,7 @@ describe("User config", () => {
       mockWriteFile.mockImplementationOnce((a, b, c, cb) =>
         cb(new Error("foo"))
       );
-      await expect(save({}, { path: STUB_CONFIG_PATH })).rejects.toBeInstanceOf(
-        Error
-      );
+      await expect(save(STUB_CONFIG_PATH, {})).rejects.toBeInstanceOf(Error);
     });
   });
 });
