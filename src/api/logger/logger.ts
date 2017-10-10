@@ -12,14 +12,21 @@ const { Console, File } = transports;
 let loggerInstance: LoggerInstance;
 export function initLogger(config: ILogConfig): void {
   if (loggerInstance === undefined) {
-    const { level, filename, ...logConfig } = config;
+    const { level, filename, silent = false, ...logConfig } = config;
     const loggerOptions: LoggerOptions = {
       level,
       exitOnError: true,
       handleExceptions: true,
       transports: [
-        new Console({ colorize: true, json: false }),
-        new File({ filename, maxFiles: 5, json: true, ...logConfig })
+        new Console({ silent, timestamp: true, colorize: true, json: false }),
+        new File({
+          filename,
+          silent,
+          timestamp: true,
+          maxFiles: 5,
+          json: true,
+          ...logConfig
+        })
       ]
     };
     loggerInstance = new WinstonLogger(loggerOptions);
