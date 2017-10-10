@@ -1,6 +1,6 @@
 import * as mkdirp from "mkdirp-promise";
 
-import { ensureDirectoryExists } from "./mkdirp";
+import { ensureDirectoryExists } from "./dir";
 
 jest.mock("mkdirp-promise");
 const mockMkdirp = mkdirp as jest.Mock<any>;

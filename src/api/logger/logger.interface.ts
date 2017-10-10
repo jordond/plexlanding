@@ -1,18 +1,18 @@
 export interface ILogConfig {
   filename?: string;
-  maxSize?: string;
+  maxSize?: number;
   level?: LogLevel;
   default?: LogLevel;
   silent?: boolean;
 }
 
 export enum LogLevel {
-  ERROR = 0,
-  WARN,
-  INFO,
-  VERBOSE,
-  DEBUG,
-  SILLY
+  ERROR = "error",
+  WARN = "warn",
+  INFO = "info",
+  VERBOSE = "verbose",
+  DEBUG = "debug",
+  SILLY = "silly"
 }
 
 export const logLevels: LogLevel[] = [
