@@ -20,5 +20,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run lint
       - run: npm run coverage
-      - run: cat ./coverage/lcov.info | coveralls
-
+      - run: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
