@@ -3,11 +3,12 @@ jobs:
   build:
     docker:
       - image: circleci/node:latest
-      environment:
-        - NODE_ENV: TEST
+        environment:
+          - NODE_ENV: TEST
     working_directory: ~/repo
     steps:
       - checkout
+      - run: npm version
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -18,4 +19,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run lint
-      - run: npm test
+      - run: npm run coverage
+      - run: cat ./coverage/lcov.info | coveralls
+
