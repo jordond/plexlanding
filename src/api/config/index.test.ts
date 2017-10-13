@@ -69,20 +69,7 @@ describe("User config", () => {
   });
 
   it("should use default environment", async () => {
-    await expect(config(undefined, true)).resolves.toEqual(
-      STUB_TEST_CONFIG_DEV
-    );
-  });
-
-  it("should not use the cached config", async () => {
-    await config(environment.ENVIRONMENT_PROD);
-    expect(mockRead).not.toHaveBeenCalled();
-  });
-
-  it("should use cached config", async () => {
-    expect(mockRead).not.toHaveBeenCalled();
-    await config(environment.ENVIRONMENT_PROD, true);
-    expect(mockRead).toHaveBeenCalled();
+    await expect(config(undefined)).resolves.toEqual(STUB_TEST_CONFIG_DEV);
   });
 });
 
@@ -101,7 +88,7 @@ describe("Config Factory", () => {
     expect(configs).toEqual(
       expect.objectContaining({
         save: expect.any(Function),
-        get: expect.any(Function),
+        load: expect.any(Function),
         all: expect.any(Function)
       })
     );
@@ -115,22 +102,28 @@ describe("Config Factory", () => {
   });
 
   it("should get all config", async () => {
-    await expect(configs.get()).resolves.toEqual(STUB_TEST_CONFIG_PROD);
-    expect(mockRead).not.toBeCalledWith(CONFIG_PATH);
-  });
-
-  it("should ignore the cache", async () => {
-    await expect(configs.get(true)).resolves.toEqual(STUB_TEST_CONFIG_PROD);
+    await expect(configs.load()).resolves.toEqual(STUB_TEST_CONFIG_PROD);
     expect(mockRead).toBeCalledWith(CONFIG_PATH);
   });
 
-  it("should provide a cached config", () => {
+  it("should ignore the cache", async () => {
+    await expect(configs.load(true)).resolves.toEqual(STUB_TEST_CONFIG_PROD);
+    expect(mockRead).toBeCalledWith(CONFIG_PATH);
+  });
+
+  it("should resolve right away with cached config", async () => {
+    await expect(configs.load()).resolves.toEqual(STUB_TEST_CONFIG_PROD);
+    expect(mockRead).not.toBeCalledWith(CONFIG_PATH);
+  });
+
+  it("should provide a cached config using .all", async () => {
+    await configs.load();
     expect(configs.all()).toEqual(STUB_TEST_CONFIG_PROD);
   });
 
   it("should use default environment", async () => {
     const devConfigFactory = configFactory();
-    await expect(devConfigFactory.get(true)).resolves.toEqual(
+    await expect(devConfigFactory.load(true)).resolves.toEqual(
       STUB_TEST_CONFIG_DEV
     );
   });

@@ -15,29 +15,30 @@ export function defaults(env: string = ""): IServerConfig {
   return merge({}, defaultConfig, getEnvironmentConfig(env || DEFAULT_ENV));
 }
 
-let cachedConfig: IServerConfig = {};
 export async function config(
-  env: string = DEFAULT_ENV,
-  forceRead: boolean = false
+  env: string = DEFAULT_ENV
 ): Promise<IServerConfig> {
-  if (!Object.keys(cachedConfig).length || forceRead) {
-    const defaultConfig: IServerConfig = defaults(env);
-    const readConfig = await read(CONFIG_PATH);
-    cachedConfig = merge({}, defaultConfig, readConfig);
-  }
+  const defaultConfig: IServerConfig = defaults(env);
+  const readConfig = await read(CONFIG_PATH);
 
-  return Promise.resolve(cachedConfig);
+  return Promise.resolve(merge({}, defaultConfig, readConfig));
 }
 
 interface IConfigFactory {
   save: (newConfig: IServerConfig) => Promise<boolean>;
-  get: (force?: boolean) => Promise<IServerConfig>;
+  load: (force?: boolean) => Promise<IServerConfig>;
   all: () => IServerConfig;
 }
 export function configFactory(env: string = DEFAULT_ENV): IConfigFactory {
+  let loadedConfig: IServerConfig = {};
   return {
     save: (newConfig: IServerConfig) => save(CONFIG_PATH, newConfig),
-    get: async (force?: boolean) => await config(env, force),
-    all: () => cachedConfig
+    load: async (force?: boolean) => {
+      if (!Object.keys(loadedConfig).length || force) {
+        loadedConfig = await config(env);
+      }
+      return loadedConfig;
+    },
+    all: () => loadedConfig
   };
 }
