@@ -1,8 +1,8 @@
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-[![Build Status](https://travis-ci.org/jordond/plexlanding.svg?branch=develop)](https://travis-ci.org/jordond/plexlanding)
 [![CircleCI](https://circleci.com/gh/jordond/plexlanding/tree/develop.svg?style=svg)](https://circleci.com/gh/jordond/plexlanding/tree/develop)
+[![Build Status](https://travis-ci.org/jordond/plexlanding.svg?branch=develop)](https://travis-ci.org/jordond/plexlanding)
 [![Coverage Status](https://coveralls.io/repos/github/jordond/plexlanding/badge.svg)](https://coveralls.io/github/jordond/plexlanding)
 [![codecov](https://codecov.io/gh/jordond/plexlanding/branch/develop/graph/badge.svg)](https://codecov.io/gh/jordond/plexlanding)
 
