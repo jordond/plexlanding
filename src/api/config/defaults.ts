@@ -1,6 +1,6 @@
 import { resolve } from "path";
 
-import { ILogConfig } from "../logger/logger.interface";
+import { ILogConfig, LogLevel } from "../logger/logger.interface";
 import { ENVIRONMENT_DEV } from "./environments";
 
 export interface IServerConfig {
@@ -35,6 +35,7 @@ export const DEFAULT_ENV: string = ENVIRONMENT_DEV;
 export function defaultConfig(): IServerConfig {
   const root = resolve(__dirname, "../../../", "dist");
   const data: string = resolve(process.env.DATA_DIR || root, "data");
+  const logFilePath: string = resolve(data, "plexlanding.log");
 
   // TODO ensure data directory exists
 
@@ -50,7 +51,11 @@ export function defaultConfig(): IServerConfig {
     secureAPI: false,
     baseURL: "",
     database: {}, // TODO
-    log: {} // TODO
+    log: {
+      filepath: logFilePath,
+      level: LogLevel.INFO,
+      maxSize: 50 * 1024
+    }
   };
 }
 

@@ -36,7 +36,7 @@
     "jsonfile": "^4.0.0",
     "lodash": "^4.17.4",
     "mkdirp-promise": "^5.0.1",
-    "winston": "^2.3.1"
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "@types/hapi": "^16.1.10",

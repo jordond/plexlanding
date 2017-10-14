@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import { resolve } from "path";
 
-import { config, configFactory, defaults } from "./";
+import { Config, defaults, user } from "./";
 import {
   DEFAULT_ENV,
   defaultConfig as getDefaults,
@@ -62,26 +62,24 @@ describe("User config", () => {
   });
 
   it("should merge user and defaults", async () => {
-    await expect(config(environment.ENVIRONMENT_PROD)).resolves.toEqual(
+    await expect(user(environment.ENVIRONMENT_PROD)).resolves.toEqual(
       STUB_TEST_CONFIG_PROD
     );
     expect(mockRead).toHaveBeenCalled();
   });
 
   it("should use default environment", async () => {
-    await expect(config(undefined, true)).resolves.toEqual(
-      STUB_TEST_CONFIG_DEV
-    );
+    await expect(user(undefined, true)).resolves.toEqual(STUB_TEST_CONFIG_DEV);
   });
 
   it("should not use the cached config", async () => {
-    await config(environment.ENVIRONMENT_PROD);
+    await user(environment.ENVIRONMENT_PROD);
     expect(mockRead).not.toHaveBeenCalled();
   });
 
   it("should use cached config", async () => {
     expect(mockRead).not.toHaveBeenCalled();
-    await config(environment.ENVIRONMENT_PROD, true);
+    await user(environment.ENVIRONMENT_PROD, true);
     expect(mockRead).toHaveBeenCalled();
   });
 });
@@ -89,7 +87,7 @@ describe("User config", () => {
 const CONFIG_PATH: string = resolve(defaults()!.paths!.data, "config.json");
 
 describe("Config Factory", () => {
-  const configs = configFactory(environment.ENVIRONMENT_PROD);
+  const configs = Config(environment.ENVIRONMENT_PROD);
 
   beforeEach(() => {
     mockRead.mockClear();
@@ -129,10 +127,17 @@ describe("Config Factory", () => {
   });
 
   it("should use default environment", async () => {
-    const devConfigFactory = configFactory();
-    await expect(devConfigFactory.get(true)).resolves.toEqual(
-      STUB_TEST_CONFIG_DEV
-    );
+    const defSpy = jest.spyOn(require("./defaults"), "defaultConfig");
+    defSpy.mockReturnValueOnce({ env: environment.ENVIRONMENT_DEV });
+
+    let devFactory = Config();
+    await expect(devFactory.get(true)).resolves.toEqual(STUB_TEST_CONFIG_DEV);
+
+    defSpy.mockReturnValueOnce({});
+    devFactory = Config();
+    await expect(devFactory.get(true)).resolves.toEqual(STUB_TEST_CONFIG_DEV);
+
+    defSpy.mockRestore();
   });
 });
 
