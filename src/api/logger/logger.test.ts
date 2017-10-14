@@ -1,12 +1,12 @@
 import { resolve } from "path";
-import { Logger as Test } from "winston";
+import { Logger as mockLogger } from "winston";
 
 import { createLogger, DEFAULT_FILEPATH, FILENAME } from "./logger";
 import { ILogConfig } from "./logger.interface";
 
 jest.mock("winston", () => {
   return {
-    Logger: jest.fn((opts: any) => opts),
+    Logger: jest.fn((o: ILogConfig) => o),
     transports: {
       Console: jest.fn(),
       File: jest.fn((o: ILogConfig) => o)
@@ -15,18 +15,31 @@ jest.mock("winston", () => {
 });
 
 describe("Logger Instance", () => {
-  const defaultConfig = {
-    handleExceptions: false,
-    exitOnError: false,
+  it("should use the default file path", () => {
+    const defaultConfig = {
+      handleExceptions: false,
+      exitOnError: false,
+      ...createFilePathMatcher(DEFAULT_FILEPATH)
+    };
+    createLogger();
+    expect(mockLogger).toBeCalledWith(expect.objectContaining(defaultConfig));
+  });
+
+  it("should use a custom file path", () => {
+    const filepath: string = "./fake/path";
+    createLogger({ filepath });
+    expect(mockLogger).toBeCalledWith(
+      expect.objectContaining(createFilePathMatcher(filepath))
+    );
+  });
+});
+
+function createFilePathMatcher(expectedPath: string): object {
+  return {
     transports: expect.arrayContaining([
       expect.objectContaining({
-        filepath: resolve(DEFAULT_FILEPATH, FILENAME)
+        filepath: resolve(expectedPath, FILENAME)
       })
     ])
   };
-
-  it("should use the default file path", () => {
-    createLogger();
-    expect(Test).toBeCalledWith(expect.objectContaining(defaultConfig));
-  });
-});
+}

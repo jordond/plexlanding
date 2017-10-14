@@ -10,13 +10,14 @@ import { getEnvironmentConfig } from "./environments";
 import { read, save } from "./user";
 
 const CONFIG_PATH: string = resolve(defaults()!.paths!.data, "config.json");
-export function defaults(env: string = ""): IServerConfig {
+export function defaults(forceEnv: string = ""): IServerConfig {
   const defaultConfig = getDefaults();
-  return merge({}, defaultConfig, getEnvironmentConfig(env || DEFAULT_ENV));
+  const env: string = forceEnv || (defaultConfig.env as any);
+  return merge({}, defaultConfig, getEnvironmentConfig(env));
 }
 
 let cachedConfig: IServerConfig = {};
-export async function config(
+export async function user(
   env: string = DEFAULT_ENV,
   forceRead: boolean = false
 ): Promise<IServerConfig> {
@@ -34,10 +35,13 @@ interface IConfigFactory {
   get: (force?: boolean) => Promise<IServerConfig>;
   all: () => IServerConfig;
 }
-export function configFactory(env: string = DEFAULT_ENV): IConfigFactory {
+
+/* tslint:disable-next-line:function-name */
+export function Config(overrideEnv?: string): IConfigFactory {
+  const env: string = overrideEnv || getDefaults().env || DEFAULT_ENV;
   return {
     save: (newConfig: IServerConfig) => save(CONFIG_PATH, newConfig),
-    get: async (force?: boolean) => await config(env, force),
+    get: async (force?: boolean) => await user(env, force),
     all: () => cachedConfig
   };
 }
