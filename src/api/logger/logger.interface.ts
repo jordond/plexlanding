@@ -1,8 +1,7 @@
 export interface ILogConfig {
-  filename?: string;
-  maxSize?: number;
+  filepath?: string;
   level?: LogLevel;
-  default?: LogLevel;
+  maxSize?: number;
   silent?: boolean;
 }
 
@@ -23,3 +22,5 @@ export const logLevels: LogLevel[] = [
   LogLevel.DEBUG,
   LogLevel.SILLY
 ];
+
+export const DEFAULT_LOG_LEVEL: LogLevel = LogLevel.INFO;
