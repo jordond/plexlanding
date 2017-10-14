@@ -2,17 +2,8 @@ import { resolve } from "path";
 import { Logger as mockLogger } from "winston";
 
 import { createLogger, DEFAULT_FILEPATH, FILENAME } from "./logger";
-import { ILogConfig } from "./logger.interface";
 
-jest.mock("winston", () => {
-  return {
-    Logger: jest.fn((o: ILogConfig) => o),
-    transports: {
-      Console: jest.fn(),
-      File: jest.fn((o: ILogConfig) => o)
-    }
-  };
-});
+jest.mock("winston");
 
 describe("Logger Instance", () => {
   it("should use the default file path", () => {

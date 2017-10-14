@@ -4,10 +4,11 @@ import { Config } from "../config";
 import { createLogger } from "./logger";
 
 export async function create(
-  label: string,
-  handleExceptions: boolean
+  label?: string,
+  handleExceptions: boolean = false,
+  forceReadConfig: boolean = false
 ): Promise<LoggerInstance> {
-  const config = (await Config().get()).log;
+  const config = (await Config().get(forceReadConfig)).log;
   return createLogger(config, label, handleExceptions);
 }
 
