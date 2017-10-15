@@ -15,7 +15,7 @@ export const development: IServerConfig = {
   env: ENVIRONMENT_DEV,
   secureAPI: false,
   log: {
-    filepath: "server_dev.log",
+    filename: "server_dev.log",
     level: LogLevel.DEBUG
   }
 };
@@ -24,7 +24,7 @@ export const production: IServerConfig = {
   env: ENVIRONMENT_PROD,
   secureAPI: true,
   log: {
-    filepath: "server.log",
+    filename: "server.log",
     level: LogLevel.INFO
   }
 };

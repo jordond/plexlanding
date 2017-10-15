@@ -1,5 +1,5 @@
 export interface ILogConfig {
-  filepath?: string;
+  filename?: string;
   level?: LogLevel;
   maxSize?: number;
   silent?: boolean;

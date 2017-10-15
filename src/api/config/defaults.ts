@@ -52,7 +52,7 @@ export function defaultConfig(): IServerConfig {
     baseURL: "",
     database: {}, // TODO
     log: {
-      filepath: logFilePath,
+      filename: logFilePath,
       level: LogLevel.INFO,
       maxSize: 50 * 1024
     }

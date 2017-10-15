@@ -5,7 +5,9 @@ import { IServerConfig } from "./defaults";
 
 export function read(path: string, opts: object = {}): Promise<IServerConfig> {
   return new Promise(resolve => {
-    readFile(path, opts, (err, obj) => resolve((obj as IServerConfig) || {}));
+    readFile(path, opts, (err: any, obj: any) =>
+      resolve((obj as IServerConfig) || {})
+    );
   });
 }
 
@@ -24,7 +26,7 @@ export function save(
       path,
       merged,
       { ...opts, spaces },
-      err => (err ? reject(err) : resolve(true))
+      (err: any) => (err ? reject(err) : resolve(true))
     );
   });
 }

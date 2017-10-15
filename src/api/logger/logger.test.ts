@@ -1,7 +1,6 @@
-import { resolve } from "path";
 import { Logger as mockLogger } from "winston";
 
-import { createLogger, DEFAULT_FILEPATH, FILENAME } from "./logger";
+import { createLogger, DEFAULT_FILEPATH } from "./logger";
 
 jest.mock("winston");
 
@@ -17,10 +16,10 @@ describe("Logger Instance", () => {
   });
 
   it("should use a custom file path", () => {
-    const filepath: string = "./fake/path";
-    createLogger({ filepath });
+    const filename: string = "./fake/path";
+    createLogger({ filename });
     expect(mockLogger).toBeCalledWith(
-      expect.objectContaining(createFilePathMatcher(filepath))
+      expect.objectContaining(createFilePathMatcher(filename))
     );
   });
 });
@@ -29,7 +28,7 @@ function createFilePathMatcher(expectedPath: string): object {
   return {
     transports: expect.arrayContaining([
       expect.objectContaining({
-        filepath: resolve(expectedPath, FILENAME)
+        filename: expectedPath
       })
     ])
   };

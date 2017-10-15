@@ -1,3 +1,5 @@
+import { resolve } from "path";
+
 import { LoggerInstance } from "winston";
 
 import { Config } from "../config";
@@ -8,8 +10,15 @@ export async function create(
   handleExceptions: boolean = false,
   forceReadConfig: boolean = false
 ): Promise<LoggerInstance> {
-  const config = (await Config().get(forceReadConfig)).log;
-  return createLogger(config, label, handleExceptions);
+  const config = await Config().get(forceReadConfig);
+  return createLogger(
+    {
+      ...config.log,
+      filename: resolve(config.paths!.data, config.log!.filename)
+    },
+    label,
+    handleExceptions
+  );
 }
 
 export async function createExceptionLogger(): Promise<LoggerInstance> {

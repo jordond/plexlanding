@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { Logger, LoggerInstance, LoggerOptions, transports } from "winston";
 
 import { DEFAULT_LOG_LEVEL, ILogConfig } from "./logger.interface";
@@ -6,11 +5,10 @@ import { DEFAULT_LOG_LEVEL, ILogConfig } from "./logger.interface";
 const { Console, File } = transports;
 
 export const DEFAULT_FILEPATH: string = __dirname;
-export const FILENAME: string = "plexlanding.log";
 
 export function createLogger(
   {
-    filepath = DEFAULT_FILEPATH,
+    filename = DEFAULT_FILEPATH,
     level = DEFAULT_LOG_LEVEL,
     maxSize = 50 * 1024,
     silent = false
@@ -28,7 +26,7 @@ export function createLogger(
       new File({
         ...common,
         maxSize,
-        filepath: resolve(filepath, FILENAME),
+        filename,
         maxFiles: 5,
         json: true
       })

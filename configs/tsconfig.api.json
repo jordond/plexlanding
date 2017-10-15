@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "../dist/api"
+    "outDir": "../dist/"
   },
   "files": ["../src/api/index.ts"]
 }
