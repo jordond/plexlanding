@@ -1,8 +1,9 @@
-import { Logger as mockLogger } from "winston";
+import { Logger } from "winston";
 
 import { createLogger, DEFAULT_FILEPATH } from "./logger";
 
 jest.mock("winston");
+const mockLogger = Logger as jest.Mock<any>;
 
 describe("Logger Instance", () => {
   it("should use the default file path", () => {
@@ -21,6 +22,17 @@ describe("Logger Instance", () => {
     expect(mockLogger).toBeCalledWith(
       expect.objectContaining(createFilePathMatcher(filename))
     );
+  });
+
+  it("should throw error and create blank logger", () => {
+    const consoleSpy = jest.spyOn(console, "error");
+    consoleSpy.mockImplementationOnce(jest.fn());
+    const logger = createLogger(undefined, "ShouldThrow");
+
+    expect(consoleSpy).toBeCalled();
+    expect(logger).toEqual({});
+
+    consoleSpy.mockRestore();
   });
 });
 
