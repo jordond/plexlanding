@@ -1,6 +1,6 @@
 import { ensureDir, ensureFile } from "fs-extra";
 
-import { ensureDirExists } from "./dir";
+import { ensureDirExists, ensureFileExists } from "./dir";
 
 jest.mock("fs-extra");
 const mockEnsureDir = ensureDir as jest.Mock<any>;
@@ -9,19 +9,26 @@ const mockEnsureFile = ensureFile as jest.Mock<any>;
 const STUB_FAKE_PATH = "/i/am/a/fake/path";
 
 describe("Filesystem Utils", () => {
-  describe("Directory", () => {
+  describe("Ensure File & Directory", () => {
     afterEach(() => {
-      mockEnsureDir.mockReset();
+      mockEnsureDir.mockClear();
+      mockEnsureFile.mockClear();
     });
 
     it("should return a promise", async () => {
       await expect(ensureDirExists("")).toBeInstanceOf(Promise);
       expect(mockEnsureDir).toHaveBeenCalledTimes(0);
+
+      await expect(ensureFileExists("")).toBeInstanceOf(Promise);
+      expect(mockEnsureFile).toHaveBeenCalledTimes(0);
     });
 
     it("should return false if no path passed in", async () => {
       await expect(ensureDirExists("")).resolves.toEqual(false);
       expect(mockEnsureDir).toHaveBeenCalledTimes(0);
+
+      await expect(ensureFileExists("")).resolves.toEqual(false);
+      expect(mockEnsureFile).toHaveBeenCalledTimes(0);
     });
 
     it("should return true if mkdirp is successful", async () => {
@@ -39,12 +46,6 @@ describe("Filesystem Utils", () => {
     it("should use the options if supplied", async () => {
       await ensureDirExists(STUB_FAKE_PATH);
       expect(mockEnsureDir).toBeCalledWith(STUB_FAKE_PATH);
-    });
-  });
-
-  describe("File", () => {
-    afterEach(() => {
-      mockEnsureDir.mockClear();
     });
   });
 });
