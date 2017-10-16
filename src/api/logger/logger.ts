@@ -15,7 +15,7 @@ export function createLogger(
   }: ILogConfig = {},
   label: string = "App",
   handleExceptions: boolean = false
-): LoggerInstance {
+): LoggerInstance | undefined {
   const common: object = { level, silent, timestamp: true };
   const loggerOptions: LoggerOptions = {
     label,
@@ -33,5 +33,10 @@ export function createLogger(
     ]
   };
 
-  return new Logger(loggerOptions);
+  try {
+    return new Logger(loggerOptions);
+  } catch (err) {
+    console.error("Unable to create logger", err);
+    return undefined;
+  }
 }
