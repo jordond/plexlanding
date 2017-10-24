@@ -63,15 +63,26 @@
     "typescript": "^2.5.3"
   },
   "lint-staged": {
-    "*.{json,css,scss}": ["prettier --write", "git add"],
-    "*.ts": ["lint", "prettier --write", "git add"]
+    "*.{json,css,scss}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
+      "lint",
+      "prettier --write",
+      "git add"
+    ]
   },
   "nodemonConfig": {
     "restartable": "rs",
     "verbose": false,
-    "watch": ["src/api"],
+    "watch": [
+      "src/api"
+    ],
     "ext": "ts",
-    "ignore": ["src/**/*.spec.ts"],
+    "ignore": [
+      "src/**/*.spec.ts"
+    ],
     "execMap": {
       "ts": "ts-node"
     }
@@ -82,16 +93,32 @@
         "tsConfigFile": "./configs/tsconfig.jest.json"
       }
     },
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
     "coverageDirectory": "coverage/",
-    "coverageReporters": ["lcov", "html", "text-summary"],
+    "coverageReporters": [
+      "lcov",
+      "html",
+      "text-summary"
+    ],
     "mapCoverage": true,
-    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "roots": ["<rootDir>/src/", "<rootDir>/test/"],
-    "testMatch": ["<rootDir>/src/**/?(*.)(spec|test).ts?(x)"],
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/test/"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
+    ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
     ]
