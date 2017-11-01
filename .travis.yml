@@ -6,7 +6,6 @@ node_js:
 env:
   - NODE_ENV=test
 before_install:
-  - npm install -g npm
   - npm install -g greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
 script:
