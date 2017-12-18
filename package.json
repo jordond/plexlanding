@@ -55,7 +55,7 @@
     "prettier": "^1.7.0",
     "rimraf": "^2.6.2",
     "supertest": "^3.0.0",
-    "ts-jest": "^21.0.1",
+    "ts-jest": "^22.0.0",
     "ts-node": "^4.0.0",
     "tslint": "^5.7.0",
     "tslint-config-airbnb": "^5.3.0",
