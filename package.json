@@ -11,7 +11,7 @@
   },
   "scripts": {
     "precommit": "lint-staged && npm run coverage",
-    "lint": "tslint --type-check --project tsconfig.json --fix src/**/*",
+    "lint": "tslint --project tsconfig.json --fix src/**/*",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "npm test -- --notify --watch",
     "clean:api": "rimraf \"./dist/api\"",
