@@ -9,7 +9,10 @@ import {
 import { getEnvironmentConfig } from "./environments";
 import { read, save } from "./user";
 
-const CONFIG_PATH: string = resolve(defaults()!.paths!.data, "config.json");
+const CONFIG_PATH: string = resolve(
+  defaults()!.paths!.data as string,
+  "config.json"
+);
 export function defaults(forceEnv: string = ""): IServerConfig {
   const defaultConfig = getDefaults();
   const env: string = forceEnv || (defaultConfig.env as any);

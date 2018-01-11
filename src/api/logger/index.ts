@@ -14,7 +14,10 @@ export async function create(
   return createLogger(
     {
       ...config.log,
-      filename: resolve(config.paths!.data, config.log!.filename)
+      filename: resolve(
+        config.paths!.data as string,
+        config.log!.filename as string
+      )
     },
     label,
     handleExceptions

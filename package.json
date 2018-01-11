@@ -43,7 +43,7 @@
     "@types/hapi": "^16.1.10",
     "@types/jest": "^22.0.0",
     "@types/lodash": "^4.14.77",
-    "@types/node": "^8.0.31",
+    "@types/node": "^9.3.0",
     "@types/winston": "^2.3.6",
     "codecov": "^3.0.0",
     "coveralls": "^3.0.0",
