@@ -36,7 +36,7 @@
     "hapi": "^16.6.2",
     "jsonfile": "^4.0.0",
     "lodash": "^4.17.4",
-    "winston": "^2.4.0"
+    "winston": "^3.0.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.0",
