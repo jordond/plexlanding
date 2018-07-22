@@ -1,6 +1,7 @@
 import { merge } from "lodash";
 import { resolve } from "path";
 
+import { ensureDir } from "fs-extra";
 import {
   DEFAULT_ENV,
   defaultConfig as getDefaults,
@@ -30,6 +31,8 @@ export async function user(
     cachedConfig = merge({}, defaultConfig, readConfig);
   }
 
+  await ensureDir(cachedConfig!.paths!.data as string);
+
   return Promise.resolve(cachedConfig);
 }
 
@@ -44,7 +47,7 @@ export function Config(overrideEnv?: string): IConfigFactory {
   const env: string = overrideEnv || getDefaults().env || DEFAULT_ENV;
   return {
     save: (newConfig: IServerConfig) => save(CONFIG_PATH, newConfig),
-    get: async (force?: boolean) => await user(env, force),
+    get: async (force?: boolean) => user(env, force),
     all: () => cachedConfig
   };
 }
