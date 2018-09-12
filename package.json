@@ -35,7 +35,7 @@
     "fs-extra": "^6.0.0",
     "hapi": "^16.6.2",
     "jsonfile": "^4.0.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "winston": "^2.4.0"
   },
   "devDependencies": {
